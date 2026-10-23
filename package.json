@@ -1,0 +1,17 @@
+{
+  "name": "achmea-copilot-workshop",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:data": "tsx kit/scripts/generate-data.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "10.6.0",
+    "@types/node": "^24.19.2",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.2",
+    "vitest": "^5.0.5"
+  }
+}

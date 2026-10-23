@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "type": "command",
+        "matcher": "bash|powershell|create_pull_request",
+        "bash": "node \"$(git rev-parse --show-toplevel)/.github/hooks/quality-gate.mjs\"",
+        "powershell": "$r = git rev-parse --show-toplevel; $input | node (Join-Path $r '.github/hooks/quality-gate.mjs')",
+        "timeoutSec": 120
+      }
+    ]
+  }
+}

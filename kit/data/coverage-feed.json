@@ -1,0 +1,915 @@
+[
+  {
+    "policyNumber": "P100001",
+    "cover": "comprehensive",
+    "deductible": 250,
+    "addOns": [
+      "roadside_assistance"
+    ]
+  },
+  {
+    "policyNumber": "P100002",
+    "cover": "all_risk",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100003",
+    "cover": "family",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100004",
+    "cover": "worldwide",
+    "deductible": 50,
+    "addOns": [
+      "winter_sports"
+    ]
+  },
+  {
+    "policyNumber": "P100005",
+    "cover": "third_party_plus",
+    "deductible": 150,
+    "addOns": [
+      "passenger_accident"
+    ]
+  },
+  {
+    "policyNumber": "P100006",
+    "cover": "extended",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100007",
+    "cover": "single",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100008",
+    "cover": "family",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100009",
+    "cover": "extended",
+    "deductible": 500,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100010",
+    "cover": "basic",
+    "deductible": 100,
+    "addOns": [
+      "valuables_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100011",
+    "cover": "comprehensive",
+    "deductible": 250,
+    "addOns": [
+      "passenger_accident",
+      "roadside_assistance"
+    ]
+  },
+  {
+    "policyNumber": "P100012",
+    "cover": "extended",
+    "deductible": 0,
+    "addOns": [
+      "glass_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100013",
+    "cover": "all_risk",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100014",
+    "cover": "basic",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100015",
+    "cover": "all_risk",
+    "deductible": 100,
+    "addOns": [
+      "outdoor_cover",
+      "valuables_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100016",
+    "cover": "basic",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100017",
+    "cover": "comprehensive",
+    "deductible": 0,
+    "addOns": [
+      "roadside_assistance"
+    ]
+  },
+  {
+    "policyNumber": "P100018",
+    "cover": "third_party_plus",
+    "deductible": 0,
+    "addOns": [
+      "passenger_accident",
+      "roadside_assistance"
+    ]
+  },
+  {
+    "policyNumber": "P100019",
+    "cover": "all_risk",
+    "deductible": 0,
+    "addOns": [
+      "valuables_cover",
+      "outdoor_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100020",
+    "cover": "third_party_plus",
+    "deductible": 150,
+    "addOns": [
+      "no_claim_protection"
+    ]
+  },
+  {
+    "policyNumber": "P100021",
+    "cover": "family",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100022",
+    "cover": "all_risk",
+    "deductible": 250,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100023",
+    "cover": "basic",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100024",
+    "cover": "family",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100025",
+    "cover": "extended",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100026",
+    "cover": "third_party_plus",
+    "deductible": 250,
+    "addOns": [
+      "no_claim_protection",
+      "roadside_assistance"
+    ]
+  },
+  {
+    "policyNumber": "P100027",
+    "cover": "basic",
+    "deductible": 0,
+    "addOns": [
+      "housing_cover",
+      "traffic_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100028",
+    "cover": "basic",
+    "deductible": 0,
+    "addOns": [
+      "outdoor_cover",
+      "valuables_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100029",
+    "cover": "family",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100030",
+    "cover": "worldwide",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100031",
+    "cover": "third_party_plus",
+    "deductible": 500,
+    "addOns": [
+      "passenger_accident",
+      "no_claim_protection"
+    ]
+  },
+  {
+    "policyNumber": "P100032",
+    "cover": "third_party_plus",
+    "deductible": 0,
+    "addOns": [
+      "passenger_accident"
+    ]
+  },
+  {
+    "policyNumber": "P100033",
+    "cover": "worldwide",
+    "deductible": 0,
+    "addOns": [
+      "cancellation_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100034",
+    "cover": "family",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100035",
+    "cover": "family",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100036",
+    "cover": "comprehensive",
+    "deductible": 150,
+    "addOns": [
+      "no_claim_protection",
+      "roadside_assistance"
+    ]
+  },
+  {
+    "policyNumber": "P100037",
+    "cover": "family",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100038",
+    "cover": "all_risk",
+    "deductible": 250,
+    "addOns": [
+      "valuables_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100039",
+    "cover": "europe",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100040",
+    "cover": "all_risk",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100041",
+    "cover": "family",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100042",
+    "cover": "comprehensive",
+    "deductible": 150,
+    "addOns": [
+      "passenger_accident",
+      "roadside_assistance"
+    ]
+  },
+  {
+    "policyNumber": "P100043",
+    "cover": "basic",
+    "deductible": 250,
+    "addOns": [
+      "valuables_cover",
+      "outdoor_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100044",
+    "cover": "family",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100045",
+    "cover": "third_party_plus",
+    "deductible": 0,
+    "addOns": [
+      "roadside_assistance",
+      "no_claim_protection"
+    ]
+  },
+  {
+    "policyNumber": "P100046",
+    "cover": "basic",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100047",
+    "cover": "single",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100048",
+    "cover": "comprehensive",
+    "deductible": 0,
+    "addOns": [
+      "no_claim_protection",
+      "passenger_accident"
+    ]
+  },
+  {
+    "policyNumber": "P100049",
+    "cover": "all_risk",
+    "deductible": 500,
+    "addOns": [
+      "garden_cover",
+      "glass_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100050",
+    "cover": "third_party_plus",
+    "deductible": 0,
+    "addOns": [
+      "passenger_accident"
+    ]
+  },
+  {
+    "policyNumber": "P100051",
+    "cover": "family",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100052",
+    "cover": "all_risk",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100053",
+    "cover": "extended",
+    "deductible": 250,
+    "addOns": [
+      "glass_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100054",
+    "cover": "worldwide",
+    "deductible": 50,
+    "addOns": [
+      "winter_sports",
+      "cancellation_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100055",
+    "cover": "basic",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100056",
+    "cover": "basic",
+    "deductible": 100,
+    "addOns": [
+      "valuables_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100057",
+    "cover": "third_party",
+    "deductible": 500,
+    "addOns": [
+      "roadside_assistance"
+    ]
+  },
+  {
+    "policyNumber": "P100058",
+    "cover": "family",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100059",
+    "cover": "all_risk",
+    "deductible": 100,
+    "addOns": [
+      "valuables_cover",
+      "outdoor_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100060",
+    "cover": "basic",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100061",
+    "cover": "comprehensive",
+    "deductible": 150,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100062",
+    "cover": "basic",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100063",
+    "cover": "all_risk",
+    "deductible": 250,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100064",
+    "cover": "basic",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100065",
+    "cover": "third_party",
+    "deductible": 250,
+    "addOns": [
+      "passenger_accident",
+      "roadside_assistance"
+    ]
+  },
+  {
+    "policyNumber": "P100066",
+    "cover": "single",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100067",
+    "cover": "comprehensive",
+    "deductible": 250,
+    "addOns": [
+      "no_claim_protection"
+    ]
+  },
+  {
+    "policyNumber": "P100068",
+    "cover": "third_party_plus",
+    "deductible": 0,
+    "addOns": [
+      "passenger_accident"
+    ]
+  },
+  {
+    "policyNumber": "P100069",
+    "cover": "single",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100070",
+    "cover": "extended",
+    "deductible": 250,
+    "addOns": [
+      "valuables_cover",
+      "outdoor_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100071",
+    "cover": "extended",
+    "deductible": 250,
+    "addOns": [
+      "outdoor_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100072",
+    "cover": "single",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100073",
+    "cover": "third_party",
+    "deductible": 150,
+    "addOns": [
+      "no_claim_protection"
+    ]
+  },
+  {
+    "policyNumber": "P100074",
+    "cover": "worldwide",
+    "deductible": 50,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100075",
+    "cover": "single",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100076",
+    "cover": "extended",
+    "deductible": 0,
+    "addOns": [
+      "traffic_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100077",
+    "cover": "europe",
+    "deductible": 50,
+    "addOns": [
+      "winter_sports",
+      "cancellation_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100078",
+    "cover": "comprehensive",
+    "deductible": 250,
+    "addOns": [
+      "passenger_accident",
+      "no_claim_protection"
+    ]
+  },
+  {
+    "policyNumber": "P100079",
+    "cover": "basic",
+    "deductible": 0,
+    "addOns": [
+      "outdoor_cover",
+      "valuables_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100080",
+    "cover": "extended",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100081",
+    "cover": "basic",
+    "deductible": 0,
+    "addOns": [
+      "glass_cover",
+      "garden_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100082",
+    "cover": "all_risk",
+    "deductible": 250,
+    "addOns": [
+      "outdoor_cover",
+      "valuables_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100083",
+    "cover": "comprehensive",
+    "deductible": 250,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100084",
+    "cover": "basic",
+    "deductible": 100,
+    "addOns": [
+      "glass_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100085",
+    "cover": "europe",
+    "deductible": 50,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100086",
+    "cover": "worldwide",
+    "deductible": 0,
+    "addOns": [
+      "cancellation_cover",
+      "winter_sports"
+    ]
+  },
+  {
+    "policyNumber": "P100087",
+    "cover": "comprehensive",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100088",
+    "cover": "single",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100089",
+    "cover": "comprehensive",
+    "deductible": 250,
+    "addOns": [
+      "roadside_assistance",
+      "passenger_accident"
+    ]
+  },
+  {
+    "policyNumber": "P100090",
+    "cover": "single",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100091",
+    "cover": "extended",
+    "deductible": 250,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100092",
+    "cover": "europe",
+    "deductible": 50,
+    "addOns": [
+      "winter_sports",
+      "cancellation_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100093",
+    "cover": "extended",
+    "deductible": 0,
+    "addOns": [
+      "traffic_cover",
+      "housing_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100094",
+    "cover": "all_risk",
+    "deductible": 100,
+    "addOns": [
+      "garden_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100095",
+    "cover": "extended",
+    "deductible": 100,
+    "addOns": [
+      "outdoor_cover",
+      "valuables_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100096",
+    "cover": "single",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100097",
+    "cover": "worldwide",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100098",
+    "cover": "family",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100099",
+    "cover": "third_party_plus",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100100",
+    "cover": "worldwide",
+    "deductible": 50,
+    "addOns": [
+      "cancellation_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100101",
+    "cover": "all_risk",
+    "deductible": 100,
+    "addOns": [
+      "valuables_cover",
+      "outdoor_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100102",
+    "cover": "basic",
+    "deductible": 0,
+    "addOns": [
+      "outdoor_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100103",
+    "cover": "family",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100104",
+    "cover": "third_party_plus",
+    "deductible": 150,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100105",
+    "cover": "all_risk",
+    "deductible": 250,
+    "addOns": [
+      "garden_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100106",
+    "cover": "extended",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100107",
+    "cover": "basic",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100108",
+    "cover": "comprehensive",
+    "deductible": 150,
+    "addOns": [
+      "passenger_accident",
+      "no_claim_protection"
+    ]
+  },
+  {
+    "policyNumber": "P100110",
+    "cover": "worldwide",
+    "deductible": 50,
+    "addOns": [
+      "cancellation_cover",
+      "winter_sports"
+    ]
+  },
+  {
+    "policyNumber": "P100111",
+    "cover": "extended",
+    "deductible": 0,
+    "addOns": [
+      "valuables_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100112",
+    "cover": "family",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100113",
+    "cover": "all_risk",
+    "deductible": 250,
+    "addOns": [
+      "valuables_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100114",
+    "cover": "extended",
+    "deductible": 500,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100115",
+    "cover": "family",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100116",
+    "cover": "third_party",
+    "deductible": 0,
+    "addOns": [
+      "no_claim_protection",
+      "passenger_accident"
+    ]
+  },
+  {
+    "policyNumber": "P100117",
+    "cover": "worldwide",
+    "deductible": 0,
+    "addOns": [
+      "cancellation_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100118",
+    "cover": "third_party_plus",
+    "deductible": 500,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100119",
+    "cover": "single",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100120",
+    "cover": "basic",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100121",
+    "cover": "europe",
+    "deductible": 50,
+    "addOns": [
+      "winter_sports",
+      "cancellation_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100122",
+    "cover": "single",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100123",
+    "cover": "extended",
+    "deductible": 0,
+    "addOns": [
+      "valuables_cover"
+    ]
+  },
+  {
+    "policyNumber": "P100124",
+    "cover": "family",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100125",
+    "cover": "all_risk",
+    "deductible": 100,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100126",
+    "cover": "comprehensive",
+    "deductible": 0,
+    "addOns": []
+  },
+  {
+    "policyNumber": "P100127",
+    "cover": "extended",
+    "deductible": 250,
+    "addOns": [
+      "valuables_cover"
+    ]
+  }
+]

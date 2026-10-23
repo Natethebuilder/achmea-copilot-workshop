@@ -1,0 +1,128 @@
+policyNumber,customerId,firstName,lastName,product,startDate,endDate,paymentTerm,premium
+P100001,C1001,Benthe,Kuypers,car,2024-01-08,,monthly,69.16
+P100002,C1001,Benthe,Kuypers,home_contents,2021-11-08,,monthly,13.70
+P100003,C1001,Benthe,Kuypers,liability,2022-01-12,,yearly,84.04
+P100004,C1001,Benthe,Kuypers,travel,2012-04-20,,yearly,74.96
+P100005,C1002,Lucie,den Adel,car,2018-05-20,,monthly,80.45
+P100006,C1002,Lucie,den Adel,home_contents,2016-07-30,,monthly,13.93
+P100007,C1002,Lucie,den Adel,liability,2026-08-01,,monthly,4.02
+P100008,C1003,Bobbi,Evers,liability,2012-01-27,,monthly,8.15
+P100009,C1003,Bobbi,Evers,home_building,2024-07-05,,monthly,20.70
+P100010,C1003,Bobbi,Evers,home_contents,2023-06-29,,monthly,11.39
+P100011,C1003,Bobbi,Evers,car,2017-08-14,,monthly,77.17
+P100012,C1004,Jara,de Haan,home_building,2025-07-26,,quarterly,64.47
+P100013,C1004,Jara,de Haan,home_contents,2012-09-08,,quarterly,63.18
+P100014,C1005,Mirte,de Nijs,home_building,2020-04-19,,monthly,16.90
+P100015,C1005,Mirte,de Nijs,home_contents,2012-01-23,,monthly,19.23
+P100016,C1006,Giel,van der Heijden,home_contents,2013-12-21,,monthly,11.93
+P100017,C1006,Giel,van der Heijden,car,2020-09-22,,monthly,108.59
+P100018,C1007,Maeve,van Iersel,car,2020-09-12,,monthly,85.37
+P100019,C1007,Maeve,van Iersel,home_contents,2026-11-01,,monthly,21.86
+P100020,C1008,Loes,Post,car,2019-08-01,,monthly,78.12
+P100021,C1008,Loes,Post,liability,2026-05-16,,yearly,87.30
+P100022,C1008,Loes,Post,home_contents,2019-10-16,,monthly,25.36
+P100023,C1008,Loes,Post,legal_aid,2016-09-12,,yearly,180.42
+P100024,C1009,Pepijn,Terlouw,liability,2024-06-26,,monthly,4.59
+P100025,C1009,Pepijn,Terlouw,home_building,2020-11-21,,monthly,38.90
+P100026,C1009,Pepijn,Terlouw,car,2022-07-16,,monthly,85.67
+P100027,C1009,Pepijn,Terlouw,legal_aid,2021-02-08,,monthly,14.07
+P100028,C1010,Miles,Jansen,home_contents,2015-06-02,,quarterly,42.75
+P100029,C1011,Pelle,Willemsen,liability,2021-04-07,,monthly,5.12
+P100030,C1011,Pelle,Willemsen,travel,2017-02-28,,monthly,8.42
+P100031,C1011,Pelle,Willemsen,car,2017-12-10,,monthly,75.38
+P100032,C1012,Diede,van Doorn,car,2025-05-17,2026-12-31,monthly,74.52
+P100033,C1012,Diede,van Doorn,travel,2021-05-01,2026-04-30,yearly,74.26
+P100034,C1012,Diede,van Doorn,liability,2020-09-15,,monthly,4.34
+P100035,C1013,Jolie,Groothuizen,liability,2013-09-12,,monthly,4.94
+P100036,C1014,Anna,Moors,car,2017-05-31,,monthly,68.22
+P100037,C1014,Anna,Moors,liability,2022-07-10,,monthly,5.47
+P100038,C1014,Anna,Moors,home_contents,2020-09-10,,monthly,22.53
+P100039,C1014,Anna,Moors,travel,2014-01-01,,monthly,6.05
+P100040,C1015,Pien,Kuijpers,home_building,2015-07-04,,monthly,26.51
+P100041,C1015,Pien,Kuijpers,liability,2019-09-04,,monthly,5.71
+P100042,C1016,Dominique,van den Velde,car,2012-07-14,,monthly,53.55
+P100043,C1016,Dominique,van den Velde,home_contents,2018-01-04,,monthly,8.98
+P100044,C1016,Dominique,van den Velde,liability,2025-12-04,,monthly,4.20
+P100045,C1017,Mylan,Martens,car,2025-05-05,,monthly,84.23
+P100046,C1017,Mylan,Martens,home_contents,2015-07-18,,yearly,99.87
+P100047,C1018,Mia,van de Veen,liability,2015-02-21,,quarterly,15.57
+P100048,C1018,Mia,van de Veen,car,2025-07-13,,yearly,1019.08
+P100049,C1018,Mia,van de Veen,home_building,2013-02-22,,monthly,33.07
+P100050,C1019,Anne-Marie,van der Veldhuizen-Kortenhoeven,car,2025-05-15,,monthly,73.12
+P100051,C1019,Anne-Marie,van der Veldhuizen-Kortenhoeven,liability,2023-03-20,,monthly,6.82
+P100052,C1019,Anne-Marie,van der Veldhuizen-Kortenhoeven,home_building,2023-01-06,,yearly,282.50
+P100053,C1020,Viggo,Schipper,home_building,2024-03-08,,monthly,19.49
+P100054,C1020,Viggo,Schipper,travel,2018-06-29,,yearly,84.86
+P100055,C1020,Viggo,Schipper,legal_aid,2018-05-27,,quarterly,45.78
+P100056,C1020,Viggo,Schipper,home_contents,2013-07-26,,yearly,110.00
+P100057,C1021,Mayson,van der Heijden,car,2022-01-17,,monthly,40.99
+P100058,C1021,Mayson,van der Heijden,liability,2022-07-21,,monthly,4.30
+P100059,C1021,Mayson,van der Heijden,home_contents,2024-11-16,,yearly,270.63
+P100060,C1021,Mayson,van der Heijden,home_building,2019-10-11,,yearly,207.19
+P100061,C1022,Hendrika,Jacobs,car,2026-08-20,,yearly,708.41
+P100062,C1022,Hendrika,Jacobs,legal_aid,2023-01-05,,monthly,14.53
+P100063,C1023,Mirte,de Haan,home_building,2012-11-18,,monthly,43.55
+P100064,C1024,Sare,van de Velden,home_contents,2024-06-30,,yearly,106.51
+P100065,C1024,Sare,van de Velden,car,2019-10-14,,monthly,38.12
+P100066,C1024,Sare,van de Velden,liability,2012-09-18,,monthly,4.72
+P100067,C1025,Tygo,Martens,car,2014-02-23,,monthly,71.17
+P100068,C1026,Nino,Meeuwis,car,2013-11-28,,monthly,79.89
+P100069,C1026,Nino,Meeuwis,liability,2023-01-14,,monthly,4.74
+P100070,C1026,Nino,Meeuwis,home_contents,2025-10-02,,quarterly,42.75
+P100071,C1027,George,Terlouw,home_contents,2018-05-26,,yearly,134.79
+P100072,C1027,George,Terlouw,liability,2014-05-07,,monthly,3.05
+P100073,C1027,George,Terlouw,car,2018-02-13,,monthly,60.70
+P100074,C1028,Dex,de Boer,travel,2013-06-29,,monthly,10.40
+P100075,C1028,Dex,de Boer,liability,2023-03-17,,monthly,4.54
+P100076,C1028,Dex,de Boer,legal_aid,2016-03-27,,yearly,283.32
+P100077,C1029,Bas,Hazes,travel,2021-01-10,,monthly,4.14
+P100078,C1029,Bas,Hazes,car,2025-05-06,,yearly,944.35
+P100079,C1030,Kevin,Corsten,home_contents,2023-06-13,,monthly,12.06
+P100080,C1030,Kevin,Corsten,legal_aid,2012-06-08,,monthly,16.67
+P100081,C1030,Kevin,Corsten,home_building,2022-10-12,,monthly,21.33
+P100082,C1031,Tobin,Groen,home_contents,2012-03-24,,quarterly,65.67
+P100083,C1031,Tobin,Groen,car,2013-10-08,,yearly,1226.97
+P100084,C1031,Tobin,Groen,home_building,2025-02-17,,monthly,19.50
+P100085,C1031,Tobin,Groen,travel,2013-10-28,,monthly,6.76
+P100086,C1032,Suus,Kuijpers,travel,2020-01-23,,monthly,10.19
+P100087,C1033,Nikki,Jansen,car,2017-03-01,2026-06-30,monthly,66.04
+P100088,C1033,Nikki,Jansen,liability,2017-03-01,2026-06-30,yearly,35.85
+P100089,C1034,Hira,Willemsen,car,2014-02-24,,yearly,630.42
+P100090,C1034,Hira,Willemsen,liability,2019-08-02,,quarterly,9.57
+P100091,C1035,Benthe,van der Horst,home_contents,2018-04-14,,quarterly,28.32
+P100092,C1035,Benthe,van der Horst,travel,2017-10-10,,yearly,46.09
+P100093,C1035,Benthe,van der Horst,legal_aid,2014-07-24,,monthly,24.49
+P100094,C1036,Pip,Hazes,home_building,2016-12-26,,monthly,45.09
+P100095,C1037,Omar,van Beek,home_contents,2017-02-21,,yearly,201.95
+P100096,C1037,Omar,van Beek,liability,2021-06-04,,monthly,3.17
+P100097,C1037,Omar,van Beek,travel,2025-08-28,,monthly,6.40
+P100098,C1038,Jette,de Boer,liability,2015-05-10,,yearly,64.49
+P100099,C1039,Lina,Zijlstra,car,2017-06-27,,quarterly,185.73
+P100100,C1039,Lina,Zijlstra,travel,2020-03-16,,monthly,6.87
+P100101,C1039,Lina,Zijlstra,home_contents,2017-07-12,,yearly,222.91
+P100102,C1040,Maas,Boer,home_contents,2013-03-23,,monthly,9.22
+P100103,C1040,Maas,Boer,liability,2022-04-14,,monthly,7.34
+P100104,C1040,Maas,Boer,car,2013-03-20,,monthly,77.38
+P100105,C1040,Maas,Boer,home_building,2017-05-13,,monthly,31.68
+P100106,C1041,Naomi,van der Wal,home_building,2022-02-11,,monthly,32.05
+P100107,C1041,Naomi,van der Wal,legal_aid,2012-03-26,,yearly,213.71
+P100108,C1042,Puk,Kuijpers,car,2014-12-07,,monthly,94.27
+P100109,C1042,Puk,Kuijpers,home_contents,2025-06-24,,monthly,15.92
+P100110,C1043,Quinn,Aalbers,travel,2016-02-28,,monthly,5.32
+P100111,C1043,Quinn,Aalbers,home_contents,2024-05-21,,quarterly,42.87
+P100112,C1043,Quinn,Aalbers,liability,2020-06-26,,monthly,5.98
+P100113,C1044,Rosie,van Dijk,home_contents,2013-10-22,,monthly,14.35
+P100114,C1044,Rosie,van Dijk,home_building,2013-07-26,,monthly,24.95
+P100115,C1044,Rosie,van Dijk,liability,2015-09-22,,yearly,65.53
+P100116,C1045,Alicia,van der Meulen,car,2025-02-03,,monthly,38.77
+P100117,C1045,Alicia,van der Meulen,travel,2026-06-20,,yearly,120.36
+P100118,C1046,Eline,Bos,car,2016-05-15,,yearly,622.39
+P100119,C1046,Eline,Bos,liability,2017-06-16,,monthly,5.10
+P100120,C1046,Eline,Bos,home_contents,2013-02-04,,monthly,9.59
+P100121,C1046,Eline,Bos,travel,2022-09-17,,monthly,5.21
+P100122,C1047,Lisa,van der Meulen,liability,2017-08-10,,monthly,5.36
+P100123,C1048,Isaiah,Sanders,home_contents,2019-04-25,,monthly,13.94
+P100124,C1049,Daniël,Poels,liability,2023-08-09,,monthly,7.70
+P100125,C1049,Daniël,Poels,home_contents,2024-11-27,,monthly,21.17
+P100126,C1050,Rosie,van der Meer,car,2014-03-27,,yearly,1117.56
+P100127,C1050,Rosie,van der Meer,home_contents,2013-07-12,,monthly,11.58
