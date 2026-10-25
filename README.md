@@ -2,8 +2,6 @@
 
 This is the facilitator kit for a 2-hour GitHub Copilot workshop with Achmea. In the live demo, agents build the first slice of My Contoso, a customer-facing insurance app for the fictional insurer Contoso Insurance. Along the way, the project repo climbs Achmea's AI-readiness ladder from L0 to L5: same result, less in the prompt, more in the repo.
 
-The flow and prompts come from the Total Rewards build in [Natethebuilder/total-rewards-example](https://github.com/Natethebuilder/total-rewards-example). This kit fixes the problems that run exposed.
-
 ## What's here
 
 | Path | What it is |
@@ -46,25 +44,6 @@ npm run typecheck
 
 The demo also covers the deck's three domains: code (skills and `implement`), test (test-first tickets and the quality gate) and security (the privacy rule and the security-review agent).
 
-## Problems from the Total Rewards run, and what changed
-
-| # | Problem | Evidence | Change in this kit |
-| --- | --- | --- | --- |
-| 1 | The first grill ran in Autopilot, answered its own questions, and merged its guesses to main. | [PR #1](https://github.com/Natethebuilder/total-rewards-example/pull/1), redone interactively in [PR #2](https://github.com/Natethebuilder/total-rewards-example/pull/2) | Step 9: check that the session is Interactive. |
-| 2 | In the App, `/grill-with-docs` and `/impeccable audit` didn't run as typed. The grill prompt had to say where the skill was installed. The audit ran Impeccable's finish-reviewer agent instead of the audit command, so it graded findings Critical to Low instead of P0–P3, and asked for a design brief that didn't exist. | The context line in the grill prompt, and the audit's output | Step 9: check the `/` menu. Step 4: if a skill isn't loaded, the agent reads its SKILL.md. |
-| 3 | Every employee's pay data was bundled into the browser, and no review caught it. | [`src/statement.ts` lines 1–2](https://github.com/Natethebuilder/total-rewards-example/blob/e87bdcc05f43e777a9c4bf136c9a7d1156f08206/src/statement.ts#L1-L2) import both data files with `?raw` | Step 7: the privacy fact. Step 4: run the security-review agent when a change loads customer data. |
-| 4 | The audit ran before the parallel PR merged, and reported planned work as defects. | The three P1 findings in [PR #12](https://github.com/Natethebuilder/total-rewards-example/pull/12) are the scope of open tickets [#5](https://github.com/Natethebuilder/total-rewards-example/issues/5), [#7](https://github.com/Natethebuilder/total-rewards-example/issues/7) and [#8](https://github.com/Natethebuilder/total-rewards-example/issues/8) | Step 4 and Step 20: mark findings that an open ticket already covers. |
-| 5 | Impeccable rates findings P0–P3, but the polish PR only listed P1. | Step 21 of the Total Rewards guide | Step 21: list P0 and P1. |
-| 6 | Edge states couldn't be opened in the browser, because the page always showed the same employee. | On main, [`App.tsx`](https://github.com/Natethebuilder/total-rewards-example/blob/e87bdcc05f43e777a9c4bf136c9a7d1156f08206/src/App.tsx#L3) builds one fixed statement. [PR #11](https://github.com/Natethebuilder/total-rewards-example/pull/11) adds an `employeeId` prop that defaults to E1003, but nothing in the URL sets it. | Step 7: `?customer=` picks the customer, and the kit pins a customer for every state. |
-| 7 | Design anti-patterns reached main: eyebrow labels above headings, which came from the prototype, and 4px side stripes. | The audit of main, the [prototype commit](https://github.com/Natethebuilder/total-rewards-example/commit/eb2e13ef24b10d4a41efa081039978755c11341e), and the clean-up in [PR #12](https://github.com/Natethebuilder/total-rewards-example/pull/12) | Step 4: the UI instructions also cover prototypes, and say to fix what the Impeccable hook reports. |
-| 8 | The design was never written down. | No DESIGN.md on main | Optional step: `/impeccable document` before teams split the work. |
-| 9 | One branch carried three PRs, so later work built on that branch instead of on a fresh main. | [PR #2](https://github.com/Natethebuilder/total-rewards-example/pull/2), [#10](https://github.com/Natethebuilder/total-rewards-example/pull/10) and [#11](https://github.com/Natethebuilder/total-rewards-example/pull/11) share one head branch | Checklist: start Steps 18 and 19 in new sessions from main. |
-| 10 | Linting reported warnings in Impeccable's vendored scripts. | The validation notes in [PR #12](https://github.com/Natethebuilder/total-rewards-example/pull/12) | Step 5: the linter ignores `.agents/` and `.github/`. |
-| 11 | Nothing enforced the checks. The only hook was Impeccable's advisory design check. | `.github/hooks/` on main | Step 6: the quality gate (L5). |
-| 12 | All guidance lived in one AGENTS.md. | No `.github/instructions/` on main | Step 4: scoped UI and data instructions (L2). |
-| 13 | Setup can fail on the day. Impeccable has no Windows ARM64 binary, proxies can block `npx` and engine downloads, and an organization's Copilot policies may not allow every tool the demo uses. | The Impeccable install on a Windows ARM64 laptop | Step 2: the ARM64 workaround. Checklist: dry run on an Achmea laptop. |
-| 14 | Faker doesn't promise the same seeded output across versions, so Step 6's "unchanged" check can fail. | `"@faker-js/faker": "^10.6.0"` in the Total Rewards `package.json` | Step 6: pin version 10.6.0 exactly. |
-| 15 | The 45-minute demo took about 55 minutes, and the only fallback was `stage/0-foundation`. | The live run | Agenda: 10 minutes of buffer. Step 8: stage branches from a rehearsal. |
 
 ## Facilitator checklist
 
@@ -86,26 +65,6 @@ On the day:
 - [ ] Start Steps 18 and 19 in new sessions from main, and start Step 19 only after the Step 18 PR is merged.
 - [ ] If Step 18 runs more than 5 minutes over, switch to `stage/1-first-ticket` in the rehearsal repo and continue there.
 - [ ] Only synthetic data and the Contoso brand appear on screen.
-
-## Suggested grill answers
-
-These keep the Step 9 grill short. The agent may ask in a different order or combine questions.
-
-| Question | Suggested answer |
-| --- | --- |
-| Which date counts as today? | The data date, 30 September 2026, not the clock, so the page is the same on every run. |
-| How is the monthly total worked out? | From running policies only: monthly premiums as they are, quarterly ÷ 3 and yearly ÷ 12. Label it "about €96.11 per month" (C1001), and show each policy's actual amount and term too, such as "€84.04 per year". |
-| What about a policy that starts later? (C1007) | Show it with "Starts 1 November 2026", outside the monthly total. |
-| What about a cancelled policy that still runs? (C1012's car) | Show it with "Ends 31 December 2026", inside the total. |
-| What about ended policies? (C1012's travel, C1033) | Leave them out of this slice. |
-| What if a customer has no running policies? (C1033) | Show only an explanation, and how to contact Contoso. |
-| What if a policy has no cover record? (C1042) | Show the policy and its premium, which still counts in the total. Say that the cover details are unavailable, and how to get help. Never guess the cover. |
-| What if the customer ID is missing or unknown? | Show a not-found message without any customer data. |
-| How does the data reach the page? | A small endpoint in the Vite dev and preview server reads `data/` and returns one customer's policies. Client code never imports `data/`. |
-| How is a €0 deductible shown? | As "No deductible". Explain the word deductible once, in plain words. |
-| How are add-ons shown? | Listed under their policy, as included in the premium. |
-| How are product, cover and add-on codes shown? | As plain labels recorded in GLOSSARY.md, such as `third_party_plus` → "Third party plus", each with a one-line explanation. |
-| How are long names handled? (C1019) | They wrap and are never cut off. |
 
 ## The kit
 
