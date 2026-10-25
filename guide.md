@@ -209,6 +209,6 @@ _Why:_ `retro` turns what went wrong into environment changes (checks, standards
 ### When the whole system is foggy, use wayfinder (new session from main)
 _Why:_ wayfinder is Matt's on-ramp for efforts too big and unclear for one session. It maps decision tickets, not features, and joins the main flow at `/to-spec`.
 ```
-/wayfinder Chart the map for My Contoso v1, beyond the policy overview slice. Destination: a v1 spec that hackathon teams can split into parallel tickets. Keep the map in GitHub Issues only.
+/wayfinder Chart the map for My Contoso v1, beyond the policy overview slice. Destination: a v1 spec that teams can split into parallel tickets. Keep the map in GitHub Issues only.
 ```
 Then work the map with `/wayfinder <map URL>`, one ticket per session. The last ticket runs `/to-spec`. Before the teams split the work, run `/impeccable document` on main, so every team builds from the same DESIGN.md.
