@@ -204,7 +204,7 @@ _Why:_ `retro` turns what went wrong into environment changes (checks, standards
 /retro
 ```
 
-## Optional: plan the whole hackathon program
+## Optional: plan the whole workshop program
 
 ### When the whole system is foggy, use wayfinder (new session from main)
 _Why:_ wayfinder is Matt's on-ramp for efforts too big and unclear for one session. It maps decision tickets, not features, and joins the main flow at `/to-spec`.
