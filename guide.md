@@ -144,7 +144,7 @@ Show the grill rounds in the Plan session, `GLOSSARY.md` and the ADRs. Then walk
 ### Step 14: Choose the design (2 min, Prototype session)
 _Why:_ the person who owns the product makes the call, and the variants are kept as evidence.
 ```
-I choose C's top section with A's policy cards below it, always expanded, because the top answers "what am I covered for, and what do I pay?" in seconds, and the cards show every policy's cover, deductible and premium without tapping. Commit the three variants to a branch called `prototype/policy-overview-layouts`, push it, and stop the dev server.
+I choose A's top section with C's policy cards below it, always expanded, because the top answers "what am I covered for, and what do I pay?" in seconds, and the cards show every policy's cover, deductible and premium without tapping. Commit the three variants to a branch called `prototype/policy-overview-layouts`, push it, and stop the dev server.
 ```
 Change the letters and the reasons to match the layouts you got.
 
