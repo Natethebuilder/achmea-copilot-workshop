@@ -38,7 +38,7 @@ function DeckControls() {
         <button aria-label="Next slide" disabled={current === totalSlides - 1} onClick={() => goTo(current + 1)}>→</button>
       </nav>
       <dialog ref={dialog} className="slide-menu" aria-label="Slide index" onClose={() => { setContents(false); menuButton.current.focus() }} onClick={event => { if (event.target === event.currentTarget) setContents(false) }}>
-        <div className="panel-heading"><div><p className="eyebrow">EXPLORE THE PRESENTATION</p><h2>Choose your next chapter.</h2></div><button onClick={() => setContents(false)} aria-label="Close slide index">×</button></div>
+        <div className="panel-heading"><div><p className="eyebrow">PRESENTATION</p><h2>Slides</h2></div><button onClick={() => setContents(false)} aria-label="Close slide index">×</button></div>
         <div className="menu-list">
           {SLIDES.map((item, index) => (
             <button key={item.id} aria-current={current === index ? 'step' : undefined} onClick={() => { goTo(index); setContents(false) }}>

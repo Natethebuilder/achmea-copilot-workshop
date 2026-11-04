@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { expect, test } from '@playwright/test'
-import { AGENDA, EVENT, LEVELS, SLIDES, WORKFLOW } from '../src/content.js'
+import { AGENDA, DESIGN, EVENT, EXERCISE, PLANNING, SKILLS, SLIDES } from '../src/content.js'
 
 const active = page => page.locator('.slide.active')
 const goTo = async (page, id) => {
@@ -30,30 +30,33 @@ test('overview, keyboard navigation and accessible slide index work', async ({ p
   await expect(index).not.toBeVisible()
   await expect(page.getByRole('button', { name: 'All slides' })).toBeFocused()
   await page.getByRole('button', { name: 'All slides' }).click()
-  await index.getByRole('button', { name: '19 Better foundations.' }).click()
-  await expect(active(page)).toHaveAttribute('data-slide', '18')
+  await index.getByRole('button', { name: '10 Debrief' }).click()
+  await expect(active(page)).toHaveAttribute('data-slide', '9')
   await expect(page.getByRole('button', { name: 'Next slide' })).toBeDisabled()
   await page.getByRole('button', { name: 'Previous slide' }).click()
-  await expect(active(page)).toHaveAttribute('data-slide', '17')
+  await expect(active(page)).toHaveAttribute('data-slide', '8')
   expect(errors).toEqual([])
 })
 
 test('overview chapter links open the requested slide', async ({ page }) => {
   await page.goto('./')
-  await page.getByRole('link', { name: 'Your repository. One useful next move.' }).click()
-  await expect(active(page)).toHaveAttribute('data-slide', '16')
+  await page.getByRole('link', { name: 'Try one repository change' }).click()
+  await expect(active(page)).toHaveAttribute('data-slide', '8')
   await focusBackground(page)
   await page.keyboard.press('ArrowRight')
-  await expect(active(page)).toHaveAttribute('data-slide', '17')
+  await expect(active(page)).toHaveAttribute('data-slide', '9')
 })
 
-test('every readiness level has a concrete action and evidence', async ({ page }) => {
-  await goTo(page, 'ladder')
-  for (const level of LEVELS) {
-    await active(page).getByRole('button', { name: `${level.level} ${level.title}` }).click()
-    await expect(active(page).locator('.level-detail')).toContainText(level.next)
-    await expect(active(page).locator('.level-detail')).toContainText(level.example)
+test('skill attribution includes the actual workshop commands and working rules', async ({ page }) => {
+  await goTo(page, 'skills')
+  await expect(active(page).locator('.card')).toHaveCount(3)
+  for (const skill of SKILLS) {
+    const card = active(page).getByRole('article').filter({ has: page.getByRole('heading', { name: skill.title, exact: true }) })
+    await expect(card).toContainText(skill.text)
+    await expect(card.locator('pre')).toHaveText(skill.code)
   }
+  await expect(active(page)).toContainText('not built-in Copilot features')
+  expect(SKILLS.map(skill => skill.code).join('\n')).toMatch(/grill-with-docs[\s\S]*karpathy-guidelines[\s\S]*impeccable audit/)
 })
 
 test('synthetic scenarios explain complete and missing information', async ({ page }) => {
@@ -67,14 +70,30 @@ test('synthetic scenarios explain complete and missing information', async ({ pa
   await expect(active(page)).toContainText('fictional insurance application')
 })
 
-test('workflow explorer explains each phase and responsibility', async ({ page }) => {
-  await goTo(page, 'workflow')
-  for (const phase of WORKFLOW) {
-    await active(page).getByRole('button', { name: new RegExp(phase.title) }).click()
-    await expect(active(page).locator('.phase-detail')).toContainText(phase.human)
-    await expect(active(page).locator('.phase-detail')).toContainText(phase.agent)
-    await expect(active(page).locator('.phase-detail')).toContainText(phase.evidence)
-  }
+for (const [id, steps] of [['planning', PLANNING], ['design', DESIGN]]) {
+  test(`${id} explorer shows each real skill prompt, output and My Contoso example`, async ({ page }) => {
+    await goTo(page, id)
+    for (const step of steps) {
+      await active(page).getByRole('button', { name: new RegExp(step.title) }).click()
+      await expect(active(page).locator('.prompt-panel pre')).toHaveText(step.prompt)
+      await expect(active(page).locator('.flow-output')).toContainText(step.artifact)
+      await expect(active(page).locator('.flow-output')).toContainText(step.output)
+      await expect(active(page).locator('.flow-example')).toHaveText(step.example)
+    }
+  })
+}
+
+test('implementation and delegation stay tied to their specific tickets', async ({ page }) => {
+  await goTo(page, 'implement')
+  await expect(active(page).locator('.prompt-panel pre')).toContainText('/implement #<first-ticket>')
+  await expect(active(page).locator('.task-context')).toContainText('€98.40')
+  await expect(active(page).locator('.task-checks > div')).toHaveCount(4)
+  await expect(active(page)).toContainText('Make surgical changes')
+  await goTo(page, 'parallel')
+  await expect(active(page)).toContainText('after the first ticket is merged')
+  await expect(active(page).locator('.prompt-panel pre')).toContainText('#<missing-information-ticket>')
+  await expect(active(page)).toContainText('separate session and worktree')
+  await expect(active(page)).toContainText('Never invent coverage')
 })
 
 test('gate requires every example check to pass and runs no commands', async ({ page }) => {
@@ -91,22 +110,27 @@ test('gate requires every example check to pass and runs no commands', async ({ 
   await expect(result).toContainText('Change needs attention')
 })
 
-test('exercise preserves per-level selections only while the page is open', async ({ page }) => {
+test('exercise uses the workshop skills and keeps selections in page memory only', async ({ page }) => {
   const submissions = []
   page.on('request', request => { if (request.method() !== 'GET') submissions.push(request.url()) })
   await goTo(page, 'exercise')
-  await expect(active(page).locator('.exercise-recommendation')).toContainText('Add repository guidance')
+  for (const option of EXERCISE.options) {
+    await active(page).getByRole('button', { name: option.label, exact: true }).click()
+    await expect(active(page).locator('.exercise-recommendation')).toContainText(option.action)
+    await expect(active(page).locator('.exercise-recommendation pre')).toHaveText(option.prompt)
+  }
+  await active(page).getByRole('button', { name: 'Matt Pocock', exact: true }).click()
   await active(page).getByRole('checkbox').first().check()
-  await expect(active(page).getByRole('status')).toHaveText('1 of 3 evidence steps explored')
-  await active(page).getByRole('button', { name: 'L4', exact: true }).click()
-  await expect(active(page).locator('.exercise-recommendation')).toContainText('Add a validation hook')
-  await expect(active(page).getByRole('status')).toHaveText('0 of 3 evidence steps explored')
+  await expect(active(page).getByRole('status')).toHaveText('1 of 3 checks completed')
+  await active(page).getByRole('button', { name: 'Impeccable', exact: true }).click()
+  await expect(active(page).locator('.exercise-recommendation')).toContainText('Audit one page')
+  await expect(active(page).getByRole('status')).toHaveText('0 of 3 checks completed')
   for (const checkbox of await active(page).getByRole('checkbox').all()) await checkbox.check()
-  await expect(active(page).getByRole('status')).toHaveText('3 of 3 evidence steps explored')
-  await active(page).getByRole('button', { name: 'L0', exact: true }).click()
-  await expect(active(page).getByRole('status')).toHaveText('1 of 3 evidence steps explored')
+  await expect(active(page).getByRole('status')).toHaveText('3 of 3 checks completed')
+  await active(page).getByRole('button', { name: 'Matt Pocock', exact: true }).click()
+  await expect(active(page).getByRole('status')).toHaveText('1 of 3 checks completed')
   await page.reload()
-  await expect(active(page).getByRole('status')).toHaveText('0 of 3 evidence steps explored')
+  await expect(active(page).getByRole('status')).toHaveText('0 of 3 checks completed')
   expect(submissions).toEqual([])
 })
 
@@ -114,7 +138,7 @@ test('customer build contains no backstage content, private links or source atta
   expect(SLIDES.every(slide => !('notes' in slide) && !('source' in slide))).toBe(true)
   const dist = join(import.meta.dirname, '..', 'dist')
   const files = readdirSync(dist, { recursive: true, withFileTypes: true }).filter(file => file.isFile())
-  const forbidden = /Natethebuilder|facilitator|rehearsal|stage\/[012]-|guide\.md|GUIDE STEPS?|Total Rewards|prd-achmea|Supplied Achmea deck|85\.4|5217|5176|speaker notes|ACHMEA × GITHUB COPILOT/i
+  const forbidden = /Natethebuilder|facilitator|rehearsal|stage\/[012]-|guide\.md|GUIDE STEPS?|Total Rewards|prd-achmea|Supplied Achmea deck|85\.4|5217|5176|speaker notes|ACHMEA × GITHUB COPILOT|Deliver with confidence|Make delegation deliberate/i
   for (const file of files) {
     expect(file.name).not.toMatch(/\.(?:pptx|pdf|map)$/i)
     if (/\.(?:js|css|html|svg)$/i.test(file.name)) {
@@ -133,7 +157,7 @@ test('customer build contains no backstage content, private links or source atta
 
 test('all slides fit desktop and remain readable on a 320px phone', async ({ page }, testInfo) => {
   await page.goto('#/deck?slide=0')
-  await expect(page.locator('.slide')).toHaveCount(19)
+  await expect(page.locator('.slide')).toHaveCount(10)
   expect(AGENDA.reduce((sum, item) => sum + item.mins, 0)).toBe(120)
   for (let index = 0; index < SLIDES.length; index++) {
     await expect(active(page)).toHaveAttribute('data-slide', String(index))

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import DeckView from './DeckView.jsx'
 import { EVENT, HOME, SLIDES } from './content.js'
-import { DeliveryLoop } from './slides/Slides.jsx'
+import { WorkshopAgenda } from './slides/Slides.jsx'
 import styles from './App.module.css'
 
 export default function App() {
@@ -30,7 +30,7 @@ export default function App() {
           </div>
           <div className="site-meta">{EVENT.meta.map(item => <span key={item}>{item}</span>)}</div>
         </div>
-        <DeliveryLoop />
+        <WorkshopAgenda />
       </section>
       <section className="site-index" data-panel id="outline">
         <p className="eyebrow">THE PROGRAMME</p>

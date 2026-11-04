@@ -1,39 +1,16 @@
 import { useState } from 'react'
 import { BottomBar, Slide, useSlides } from '@deckio/deck-engine'
-import { AGENDA, EVENT, EXERCISE, GATE_VIEW, HERO, LEVELS, POLICY_EXAMPLES, SOURCE_VIEW, TICKET_VIEW, WORKFLOW } from '../content.js'
+import { AGENDA, EVENT, EXERCISE, GATE_VIEW, POLICY_EXAMPLES, SOURCE_VIEW } from '../content.js'
 
-export function DeliveryLoop() {
+export function WorkshopAgenda() {
   return (
-    <div className="delivery-loop" aria-label="The agentic delivery loop">
-      <div className="loop-orbit" aria-hidden="true" />
-      <p className="eyebrow">{HERO.eyebrow}</p>
-      <div className="loop-steps">{HERO.steps.map((step, index) => (
-        <div className="loop-step" key={step.title}>
-          <span className="loop-symbol" aria-hidden="true">{index === 0 ? '◎' : index === 1 ? '⌘' : '✓'}</span>
-          <div><small>0{index + 1}</small><strong>{step.title}</strong><p>{step.detail}</p></div>
+    <div className="workshop-agenda" aria-label="Two-hour programme">
+      <p className="eyebrow">THE PROGRAMME</p>
+      {AGENDA.map(item => (
+        <div className="programme-row" key={item.at}>
+          <span>{item.at}</span><div><strong>{item.title}</strong><p>{item.detail}</p></div><small>{item.mins} min</small>
         </div>
-      ))}</div>
-      <p className="loop-footer">{HERO.footer}</p>
-    </div>
-  )
-}
-
-function Ladder() {
-  const [selected, setSelected] = useState(1)
-  const item = LEVELS[selected]
-  return (
-    <div className="ladder-widget">
-      <div className="ladder-levels" role="group" aria-label="Readiness level">
-        {LEVELS.map((level, index) => (
-          <button key={level.level} aria-pressed={selected === index} onClick={() => setSelected(index)}>
-            <span>{level.level}</span><strong>{level.title}</strong><i style={{ height: `${18 + index * 12}px` }} aria-hidden="true" />
-          </button>
-        ))}
-      </div>
-      <div className="level-detail" aria-live="polite">
-        <div><p className="eyebrow">{item.level} / {item.title}</p><code>{item.file}</code><p>{item.detail}</p></div>
-        <div><p className="eyebrow">THE NEXT MOVE</p><h3>{item.next}</h3><p>{item.example}</p></div>
-      </div>
+      ))}
     </div>
   )
 }
@@ -67,22 +44,29 @@ function Sources() {
   )
 }
 
-function Workflow() {
+function SkillFlow({ steps }) {
   const [selected, setSelected] = useState(0)
-  const phase = WORKFLOW[selected]
+  const step = steps[selected]
   return (
     <div className="workflow-widget">
-      <div className="workflow-phases" role="group" aria-label="Delivery phase">{WORKFLOW.map((item, index) => (
+      <div className="workflow-phases" style={{ '--step-count': steps.length }} role="group" aria-label="Skill step">{steps.map((item, index) => (
         <button key={item.title} onClick={() => setSelected(index)} aria-pressed={selected === index}>
-          <span>0{index + 1}</span><strong>{item.title}</strong><small>{item.label}</small>
+          <span>0{index + 1}</span><strong>{item.title}</strong><code>{item.label}</code>
         </button>
       ))}</div>
-      <div className="phase-detail" aria-live="polite">
-        <div className="phase-summary"><span className="phase-big" aria-hidden="true">0{selected + 1}</span><div><h3>{phase.title}</h3><p>{phase.result}</p></div></div>
-        <div className="phase-roles">
-          {[['People decide', phase.human], ['Agents do', phase.agent], ['Evidence to inspect', phase.evidence]].map(([label, text]) => <div key={label}><p className="eyebrow">{label}</p><p>{text}</p></div>)}
-        </div>
+      <div className="flow-detail" aria-live="polite">
+        <div className="prompt-panel"><p className="eyebrow">EXAMPLE PROMPT</p><pre>{step.prompt}</pre></div>
+        <div className="flow-output"><p className="eyebrow">EXPECTED OUTPUT</p><h3>{step.artifact}</h3><p>{step.output}</p><p className="flow-example">{step.example}</p></div>
       </div>
+    </div>
+  )
+}
+
+function TaskBrief({ brief }) {
+  return (
+    <div className="task-brief">
+      <div className="prompt-panel"><p className="eyebrow">EXAMPLE PROMPT</p><pre>{brief.prompt}</pre><p className="task-context">{brief.context}</p></div>
+      <div className="task-checks"><p className="eyebrow">{brief.label}</p>{brief.checks.map(check => <div key={check.title}><h3>{check.title}</h3><p>{check.text}</p></div>)}</div>
     </div>
   )
 }
@@ -116,24 +100,27 @@ function Gate() {
 function Exercise() {
   const [selected, setSelected] = useState(0)
   const [evidence, setEvidence] = useState({})
-  const level = LEVELS[selected]
-  const checked = evidence[level.level] || []
-  const toggle = index => setEvidence(current => ({ ...current, [level.level]: checked.includes(index) ? checked.filter(item => item !== index) : [...checked, index] }))
+  const option = EXERCISE.options[selected]
+  const checked = evidence[option.id] || []
+  const toggle = index => setEvidence(current => {
+    const previous = current[option.id] || []
+    return { ...current, [option.id]: previous.includes(index) ? previous.filter(item => item !== index) : [...previous, index] }
+  })
   return (
     <div className="exercise-widget">
       <div className="exercise-picker">
         <p className="eyebrow">{EXERCISE.label}</p>
-        <div className="exercise-levels" role="group" aria-label="Exercise starting level">{LEVELS.map((item, index) => (
-          <button key={item.level} onClick={() => setSelected(index)} aria-pressed={selected === index}>{item.level}</button>
+        <div className="exercise-options" role="group" aria-label="Exercise task">{EXERCISE.options.map((item, index) => (
+          <button key={item.id} onClick={() => setSelected(index)} aria-pressed={selected === index}>{item.label}</button>
         ))}</div>
         <p className="interaction-hint">{EXERCISE.prompt}</p>
         <div className="exercise-timing">{EXERCISE.timings.map(item => <div key={item.time}><strong>{item.time}</strong><span><b>{item.title}</b><small>{item.detail}</small></span></div>)}</div>
       </div>
       <div className="exercise-plan">
         <p className="eyebrow">{EXERCISE.actionLabel}</p>
-        <div className="exercise-recommendation" aria-live="polite"><h3>{level.action}</h3><p>{level.example}</p></div>
+        <div className="exercise-recommendation" aria-live="polite"><h3>{option.action}</h3><pre>{option.prompt}</pre></div>
         <p className="eyebrow evidence-label">{EXERCISE.evidenceLabel}</p>
-        <div className="evidence-list">{level.evidence.map((item, index) => <label key={`${level.level}-${index}`}><input type="checkbox" checked={checked.includes(index)} onChange={() => toggle(index)} /><span>{item}</span></label>)}</div>
+        <div className="evidence-list">{option.evidence.map((item, index) => <label key={`${option.id}-${index}`}><input type="checkbox" checked={checked.includes(index)} onChange={() => toggle(index)} /><span>{item}</span></label>)}</div>
         <p className="evidence-progress" role="status">{checked.length} {EXERCISE.completed}</p>
         <small className="exercise-privacy">{EXERCISE.privacy}</small>
       </div>
@@ -141,45 +128,29 @@ function Exercise() {
   )
 }
 
-function TicketMap() {
-  return (
-    <div className="ticket-map">
-      <article className="spec-ticket"><p className="eyebrow">{TICKET_VIEW.spec.command}</p><h3>{TICKET_VIEW.spec.title}</h3><p>{TICKET_VIEW.spec.detail}</p></article>
-      <div className="ticket-arrow" aria-hidden="true">→</div>
-      <div className="ticket-branches">
-        <article className="first-ticket"><p className="eyebrow">{TICKET_VIEW.first.command}</p><h3>{TICKET_VIEW.first.title}</h3><p>{TICKET_VIEW.first.detail}</p><span className="ticket-label">{TICKET_VIEW.first.label}</span></article>
-        <div className="following-tickets">{TICKET_VIEW.next.map(ticket => <article key={ticket.title}><h3>{ticket.title}</h3><p>{ticket.detail}</p></article>)}</div>
-      </div>
-    </div>
-  )
-}
-
 export function WorkshopSlide({ index, slide }) {
   const active = useSlides().current === index
-  const statement = slide.type === 'statement'
   const hero = slide.type === 'title'
   return (
-    <Slide index={index} className={`workshop-slide ${statement ? 'statement-slide' : ''} ${hero ? 'hero-slide' : ''}`}>
+    <Slide index={index} className={`workshop-slide ${hero ? 'hero-slide' : ''}`}>
       <div className="slide-rule" aria-hidden="true" />
       <div className={`slide-content ${active ? 'is-active' : ''}`} inert={!active} aria-hidden={!active}>
         <div className={hero ? 'hero-layout' : 'slide-main'}>
           <header className="slide-heading">
             <p className="eyebrow">{slide.eyebrow}</p>
-            <h1>{slide.title}{slide.highlight && <>{' '}<br className={statement || hero ? '' : 'optional-break'} /><em>{slide.highlight}</em></>}</h1>
+            <h1>{slide.title}{slide.highlight && <>{' '}<br className={hero ? '' : 'optional-break'} /><em>{slide.highlight}</em></>}</h1>
             {slide.subtitle && <p className="slide-subtitle">{slide.subtitle}</p>}
             {hero && <div className="title-meta">{EVENT.meta.map(item => <span key={item}>{item}</span>)}</div>}
           </header>
-          {hero && <DeliveryLoop />}
+          {hero && <WorkshopAgenda />}
         </div>
         {slide.cards && <div className="cards">{slide.cards.map(card => <article className="card" key={card.title}><p className="card-label">{card.label}</p><h3>{card.title}</h3><p>{card.text}</p>{card.code && <pre>{card.code}</pre>}</article>)}</div>}
-        {slide.type === 'ladder' && <Ladder />}
-        {slide.type === 'agenda' && <div className="agenda">{AGENDA.map(item => <article key={item.at}><p className="agenda-time">{item.at}</p><h3>{item.title}</h3><p>{item.detail}</p><span>{item.mins} min</span></article>)}</div>}
         {slide.type === 'sources' && <Sources />}
-        {slide.type === 'workflow' && <Workflow />}
-        {slide.type === 'tickets' && <TicketMap />}
+        {slide.type === 'flow' && <SkillFlow steps={slide.steps} />}
+        {slide.type === 'brief' && <TaskBrief brief={slide.brief} />}
         {slide.type === 'gate' && <Gate />}
         {slide.type === 'exercise' && <Exercise />}
-        <div className="takeaway"><span>{statement || hero ? 'THE IDEA' : 'TAKEAWAY'}</span><p>{slide.takeaway}</p></div>
+        <div className="takeaway"><span>{hero ? 'TOOLING' : 'NOTE'}</span><p>{slide.takeaway}</p></div>
       </div>
       <BottomBar text={<span className="slide-footer"><span>{EVENT.footer}</span><span>MY CONTOSO / SYNTHETIC EXAMPLES</span></span>} />
     </Slide>
