@@ -9,7 +9,7 @@ export default {
   description: EVENT.description,
   theme: 'light',
   appearance: 'light',
-  accent: '#185b58',
+  accent: '#1f5c63',
   slides: SLIDES.map((slide) => {
     const Component = ({ index }) => createElement(WorkshopSlide, { index, slide })
     Component.displayName = slide.id

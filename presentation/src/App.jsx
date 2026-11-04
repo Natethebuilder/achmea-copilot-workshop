@@ -12,16 +12,16 @@ export default function App() {
     return () => window.removeEventListener('hashchange', update)
   }, [])
   useEffect(() => {
-    document.title = `${EVENT.title} ${EVENT.highlight} / ${EVENT.eyebrow}`
+    document.title = `${EVENT.title} ${EVENT.highlight} / ${EVENT.brand}`
   }, [])
   if (deck) return <DeckView />
   return (
     <main className={styles.site}>
-      <header className="site-nav"><span>{EVENT.eyebrow}</span><a href="#/deck">Open presentation ↗</a></header>
+      <header className="site-nav"><span>{EVENT.eyebrow}</span><a href="#/deck">{HOME.open} ↗</a></header>
       <section className="site-hero" data-panel id="welcome">
         <div className="site-hero-copy">
           <p className="eyebrow">{HOME.eyebrow}</p>
-          <h1>{EVENT.title}<br /><em>{EVENT.highlight}</em></h1>
+          <h1>{EVENT.title}{' '}<br />{EVENT.highlight}</h1>
           <p className="site-tagline">{EVENT.tagline}</p>
           <p>{EVENT.description}</p>
           <div className="site-actions">
@@ -33,7 +33,7 @@ export default function App() {
         <WorkshopAgenda />
       </section>
       <section className="site-index" data-panel id="outline">
-        <p className="eyebrow">THE PROGRAMME</p>
+        <p className="eyebrow">{HOME.programme}</p>
         <h2>{HOME.indexTitle}</h2>
         <p className="index-description">{HOME.indexDescription}</p>
         <div className="outline-grid">
@@ -42,7 +42,7 @@ export default function App() {
               <span className="chapter-number">0{index + 1}</span>
               <h3>{section}</h3>
               <ol>{SLIDES.filter(slide => slide.section === section).map(slide => (
-                <li key={slide.id}><a href={`#/deck?slide=${SLIDES.indexOf(slide)}`}>{slide.title} {slide.highlight}</a></li>
+                <li key={slide.id}><a href={`#/deck?slide=${SLIDES.indexOf(slide)}`}>{slide.title}{slide.highlight ? ` ${slide.highlight}` : ''}</a></li>
               ))}</ol>
             </article>
           ))}

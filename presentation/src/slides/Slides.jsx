@@ -1,158 +1,597 @@
-import { useState } from 'react'
+import { Fragment, useId, useState } from 'react'
 import { BottomBar, Slide, useSlides } from '@deckio/deck-engine'
-import { AGENDA, EVENT, EXERCISE, GATE_VIEW, POLICY_EXAMPLES, SOURCE_VIEW } from '../content.js'
+import { AGENDA, EVENT } from '../content.js'
 
-export function WorkshopAgenda() {
+const pad = number => String(number).padStart(2, '0')
+const duration = at => {
+  const [hours, minutes] = at.split(':').map(Number)
+  return `PT${hours}H${minutes}M`
+}
+
+function rich(text) {
+  if (typeof text !== 'string' || !text.includes('`')) return text
+  return text.split('`').map((part, index) => (index % 2
+    ? <code className="chip" key={index}>{part}</code>
+    : <Fragment key={index}>{part}</Fragment>))
+}
+
+function Choice({ label, visibleLabel, options, value, onChange, className = '' }) {
+  const id = useId()
   return (
-    <div className="workshop-agenda" aria-label="Two-hour programme">
-      <p className="eyebrow">THE PROGRAMME</p>
-      {AGENDA.map(item => (
-        <div className="programme-row" key={item.at}>
-          <span>{item.at}</span><div><strong>{item.title}</strong><p>{item.detail}</p></div><small>{item.mins} min</small>
-        </div>
+    <>
+      {visibleLabel && <p className="mini-label" id={id}>{visibleLabel}</p>}
+      <div className={`choice ${className}`} role="group" aria-label={visibleLabel ? undefined : label} aria-labelledby={visibleLabel ? id : undefined}>
+        {options.map((option, index) => (
+          <button key={option} type="button" aria-pressed={value === index} onClick={() => onChange(index)}>{option}</button>
+        ))}
+      </div>
+    </>
+  )
+}
+
+const Status = ({ state, labels }) => <span className={`status status-${state}`}>{labels[state]}</span>
+const Arrow = ({ down }) => <span className={down ? 'down-arrow' : 'phase-arrow'} aria-hidden="true">{down ? '↓' : '→'}</span>
+
+function Heading({ slide }) {
+  return (
+    <header className="slide-heading">
+      <p className={`eyebrow${slide.mono ? ' eyebrow-mono' : ''}`}>{slide.mono || slide.eyebrow}</p>
+      <h1>{slide.title}{slide.highlight && <>{' '}<span className="title-highlight">{slide.highlight}</span></>}</h1>
+      {slide.subtitle && <p className="slide-subtitle">{rich(slide.subtitle)}</p>}
+    </header>
+  )
+}
+
+function Takeaway({ takeaway }) {
+  if (!takeaway) return null
+  return (
+    <div className="takeaway">
+      <p className="mini-label">{takeaway.label}</p>
+      <p>{rich(takeaway.text)}</p>
+    </div>
+  )
+}
+
+function Cards({ cards }) {
+  return (
+    <div className="cards">
+      {cards.map((card, index) => (
+        <article className="card" key={card.title}>
+          <span className="card-number">{pad(index + 1)}</span>
+          <h3>{card.title}</h3>
+          <p>{rich(card.text)}</p>
+        </article>
       ))}
     </div>
   )
 }
 
-function Sources() {
+function AgendaBar() {
+  return (
+    <div className="agenda-bar" aria-hidden="true">
+      {AGENDA.map(item => <span key={item.at} className={`tone-${item.tone}`} style={{ flexGrow: item.mins }} />)}
+    </div>
+  )
+}
+
+export function WorkshopAgenda() {
+  return (
+    <div className="workshop-agenda">
+      <p className="eyebrow">{EVENT.agendaLabel}</p>
+      <AgendaBar />
+      <ol>
+        {AGENDA.map(item => (
+          <li key={item.at} className={`tone-${item.tone}`}>
+            <span className="agenda-dot" aria-hidden="true" />
+            <time dateTime={duration(item.at)}>{item.at}</time>
+            <div><strong>{item.title}</strong><p>{item.detail}</p></div>
+            <small>{item.mins} min</small>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
+function TitleSlide({ slide }) {
+  return (
+    <div className="title-layout">
+      <p className="eyebrow">{slide.eyebrow}</p>
+      <h1>{slide.title}{' '}<br />{slide.highlight}</h1>
+      <p className="slide-subtitle">{slide.subtitle}</p>
+      <ul className="title-meta">{EVENT.meta.map(item => <li key={item}>{item}</li>)}</ul>
+      <p className="title-note">{EVENT.scenario}</p>
+    </div>
+  )
+}
+
+function WhyBody({ slide }) {
+  return (
+    <>
+      <Cards cards={slide.cards} />
+      <div className="agenda-strip">
+        <p className="section-label">{EVENT.agendaLabel}</p>
+        <AgendaBar />
+        <ol className="agenda-columns">
+          {AGENDA.map(item => (
+            <li key={item.at} className={`tone-${item.tone}`}>
+              <time dateTime={duration(item.at)}><span className="agenda-dot" aria-hidden="true" />{item.at}</time>
+              <strong>{item.title}</strong>
+              <p>{item.detail}</p>
+              <small>{item.mins} min</small>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </>
+  )
+}
+
+function SourceCard({ source }) {
+  return (
+    <article className="card source-card">
+      <div className="source-top"><h3>{source.title}</h3><span className="file-type">{source.type}</span></div>
+      <ul className="field-list">{source.items.map(item => <li key={item}>{item}</li>)}</ul>
+      <p className="source-count">{source.count}</p>
+    </article>
+  )
+}
+
+function ContosoBody({ slide }) {
   const [selected, setSelected] = useState(0)
-  const example = POLICY_EXAMPLES[selected]
+  const example = slide.examples[selected]
   return (
-    <div className="sources-widget">
-      <div className="source-stack">
-        {SOURCE_VIEW.files.map((file, index) => <div key={file.path}>
-          {index > 0 && <div className="join-key"><span>{SOURCE_VIEW.join.label}</span> <code>{SOURCE_VIEW.join.key}</code></div>}
-          <div className="source-file"><span className="file-type">{file.type}</span><div><h3>{file.title}</h3><code>{file.path}</code><p>{file.detail}</p></div></div>
-        </div>)}
-        <p className="interaction-hint"><span aria-hidden="true">↗</span> {SOURCE_VIEW.hint}</p>
-      </div>
-      <div className="policy-example">
-        <div className="widget-tabs" role="group" aria-label="Synthetic customer example">
-          {POLICY_EXAMPLES.map((item, index) => <button key={item.id} onClick={() => setSelected(index)} aria-pressed={selected === index}>{item.label}</button>)}
+    <>
+      <div className="label-row"><p className="section-label">{slide.sourcesLabel}</p><span className="tag">{slide.sourcesTag}</span></div>
+      <div className="source-equation">
+        <SourceCard source={slide.sources[0]} />
+        <div className="join">
+          <span className="operator" aria-hidden="true">+</span>
+          <small>{slide.join.label}</small>
+          <code className="chip">{slide.join.key}</code>
         </div>
-        <div className="policy-result" aria-live="polite">
-          <p className="eyebrow">{SOURCE_VIEW.label}</p>
-          <h3>{example.name}</h3>
-          <p>{example.summary}</p>
-          <div className={`premium ${selected ? 'unknown' : ''}`}><strong>{example.premium}</strong><span>{example.term}</span></div>
-          <div className="policy-chips">{example.policies.map(policy => <span key={policy}>{policy}</span>)}</div>
-          <p className="policy-state">{example.state}</p>
+        <SourceCard source={slide.sources[1]} />
+        <span className="operator" aria-hidden="true">=</span>
+        <div className="result-block">
+          <p className="mini-label">{slide.result.label}</p>
+          <h3>{slide.result.title}</h3>
+          <p>{slide.result.text}</p>
+        </div>
+      </div>
+      <div className="example-row">
+        <div className="example-picker">
+          <Choice visibleLabel={slide.exampleLabel} options={slide.examples.map(item => item.label)} value={selected} onChange={setSelected} className="choice-stack" />
+        </div>
+        <div className="worked" aria-live="polite">
+          <p className="worked-name"><strong>{example.name}</strong> <code className="chip">{example.ref}</code></p>
+          <div className="worked-sum">
+            {example.lines.map((line, index) => (
+              <Fragment key={line.name}>
+                {index > 0 && <span className="operator" aria-hidden="true">+</span>}
+                <span className="sum-line">
+                  <small>{line.name}</small>
+                  <strong>{line.amount}</strong>
+                  {line.flag && <span className="flag">{line.flag}</span>}
+                </span>
+              </Fragment>
+            ))}
+            <span className="operator" aria-hidden="true">=</span>
+            <span className="sum-line sum-total"><strong>{example.total}</strong><small>{example.unit}</small></span>
+          </div>
+          <p className="worked-note">{example.note}</p>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function WorkflowBody({ slide }) {
+  return (
+    <>
+      <div className="workflow">
+        {slide.phases.map((phase, index) => (
+          <Fragment key={phase.title}>
+            {index > 0 && <Arrow />}
+            <div className={`phase phase-${index + 1}`}>
+              <h3>{phase.title}</h3>
+              <p className="phase-text">{rich(phase.text)}</p>
+              <ol className="phase-steps">
+                {phase.steps.map(step => (step.detour ? (
+                  <li className="detour" key={step.label}>
+                    <p className="mini-label">{step.label}</p>
+                    <p className="detour-cmds">{step.cmds.map((cmd, cmdIndex) => (
+                      <Fragment key={cmdIndex}>{cmdIndex > 0 && <span aria-hidden="true"> → </span>}<code>{cmd}</code></Fragment>
+                    ))}</p>
+                    <p className="step-out"><span aria-hidden="true">→ </span>{step.out}</p>
+                  </li>
+                ) : (
+                  <li className="phase-step" key={step.n}>
+                    <span className="step-square">{step.n}</span>
+                    <div><code>{step.cmd}</code><p className="step-out"><span aria-hidden="true">→ </span>{step.out}</p></div>
+                  </li>
+                )))}
+              </ol>
+              {phase.box && (
+                <div className="runs-itself">
+                  <p className="mini-label">{phase.box.label}</p>
+                  <p>{phase.box.cmds.map(cmd => <code className="chip" key={cmd}>{cmd}</code>)}</p>
+                </div>
+              )}
+            </div>
+          </Fragment>
+        ))}
+      </div>
+      <div className="workflow-footer">
+        <div className="onramp">
+          <p className="mini-label">{slide.onramp.label}</p>
+          <p>{rich(slide.onramp.text)}</p>
+          <span className="tag">{slide.onramp.tag}</span>
+        </div>
+        <p className="router">{slide.router.text} <code className="chip">{slide.router.cmd}</code></p>
+      </div>
+    </>
+  )
+}
+
+function LadderBody({ slide }) {
+  const [selected, setSelected] = useState(slide.defaultLevel)
+  const level = slide.levels[selected]
+  const rungs = slide.levels.map((item, index) => ({ ...item, index })).reverse()
+  return (
+    <div className="ladder">
+      <div className="rungs" role="group" aria-label={slide.choiceLabel}>
+        {rungs.map(item => (
+          <button key={item.level} type="button" aria-pressed={selected === item.index} className={item.index < selected ? 'is-below' : undefined} style={{ '--step': item.index }} onClick={() => setSelected(item.index)}>
+            <span className="rung-level">{item.level}</span>{' '}<span className="rung-name">{item.name}</span>
+          </button>
+        ))}
+      </div>
+      <article className="card ladder-detail" aria-live="polite">
+        <p className="ladder-kicker"><span className="step-square solid">{level.level}</span>{level.name}</p>
+        <h3>{level.text}</h3>
+        <ul className="ticks">{level.items.map(item => <li key={item}>{rich(item)}</li>)}</ul>
+        <code className="ladder-path">{level.path}</code>
+      </article>
+    </div>
+  )
+}
+
+function GrillBody({ slide }) {
+  return (
+    <div className="grill">
+      <div className="grill-left">
+        <p className="statement">{slide.statement}</p>
+        <p className="body-text">{rich(slide.text)}</p>
+        <p className="quote">{slide.quote}</p>
+        <article className="card card-dark-top question-card">
+          <p className="mini-label">{slide.question.label}</p>
+          <h3>{slide.question.text}</h3>
+          <p>{slide.question.answer}</p>
+        </article>
+      </div>
+      <div className="grill-right">
+        <div className="file-block">
+          <p className="file-head"><code>{slide.glossary.file}</code><span className="tag">{slide.glossary.tag}</span></p>
+          <div className="terms">
+            {slide.glossary.terms.map(item => (
+              <article className="card term" key={item.term}><h3>{item.term}</h3><p>{item.text}</p></article>
+            ))}
+          </div>
+        </div>
+        <div className="file-block">
+          <p className="file-head"><code>{slide.adrs.file}</code><span className="tag">{slide.adrs.tag}</span></p>
+          <ul className="adr-list">
+            {slide.adrs.items.map(item => <li key={item.title}><strong>{item.title}</strong><span>{item.text}</span></li>)}
+          </ul>
         </div>
       </div>
     </div>
   )
 }
 
-function SkillFlow({ steps }) {
+function Wireframe({ kind, total }) {
+  const cards = kind === 'C' || kind === 'AC'
+  return (
+    <span className={`wire wire-${kind.toLowerCase()}`} aria-hidden="true">
+      {(kind === 'A' || kind === 'AC') && <span className="wire-total"><span className="wire-line" /><b>{total}</b></span>}
+      {kind === 'A' && <span className="wire-rows">{[0, 1, 2, 3].map(item => <span key={item} />)}</span>}
+      {kind === 'B' && <span className="wire-table">{Array.from({ length: 20 }, (_, item) => <span key={item} />)}</span>}
+      {cards && <span className="wire-cards">{[0, 1, 2, 3].map(item => <span key={item}><span className="wire-line" /><span className="wire-line short" /></span>)}</span>}
+    </span>
+  )
+}
+
+function PrototypeBody({ slide }) {
   const [selected, setSelected] = useState(0)
-  const step = steps[selected]
+  const variant = slide.variants[selected]
   return (
-    <div className="workflow-widget">
-      <div className="workflow-phases" style={{ '--step-count': steps.length }} role="group" aria-label="Skill step">{steps.map((item, index) => (
-        <button key={item.title} onClick={() => setSelected(index)} aria-pressed={selected === index}>
-          <span>0{index + 1}</span><strong>{item.title}</strong><code>{item.label}</code>
-        </button>
-      ))}</div>
-      <div className="flow-detail" aria-live="polite">
-        <div className="prompt-panel"><p className="eyebrow">EXAMPLE PROMPT</p><pre>{step.prompt}</pre></div>
-        <div className="flow-output"><p className="eyebrow">EXPECTED OUTPUT</p><h3>{step.artifact}</h3><p>{step.output}</p><p className="flow-example">{step.example}</p></div>
-      </div>
-    </div>
-  )
-}
-
-function TaskBrief({ brief }) {
-  return (
-    <div className="task-brief">
-      <div className="prompt-panel"><p className="eyebrow">EXAMPLE PROMPT</p><pre>{brief.prompt}</pre><p className="task-context">{brief.context}</p></div>
-      <div className="task-checks"><p className="eyebrow">{brief.label}</p>{brief.checks.map(check => <div key={check.title}><h3>{check.title}</h3><p>{check.text}</p></div>)}</div>
-    </div>
-  )
-}
-
-function Gate() {
-  const [checks, setChecks] = useState({ types: true, tests: false })
-  const passing = GATE_VIEW.checks.every(check => checks[check.id])
-  return (
-    <div className="gate-widget">
-      <div className="gate-controls">
-        <p className="eyebrow">{GATE_VIEW.label}</p>
-        <div className="quality-checks" role="group" aria-label="Example check results">
-          {GATE_VIEW.checks.map(check => <button key={check.id} onClick={() => setChecks(current => ({ ...current, [check.id]: !current[check.id] }))} aria-pressed={checks[check.id]}>
-            <span className={checks[check.id] ? 'check-pass' : 'check-fail'} aria-hidden="true">{checks[check.id] ? '✓' : '×'}</span><strong>{check.label}</strong><span>{checks[check.id] ? 'Pass' : 'Fail'}</span>
-          </button>)}
+    <div className="prototype">
+      <div className="prototype-main">
+        <div className="variants" role="group" aria-label={slide.choiceLabel}>
+          {slide.variants.map((item, index) => (
+            <button key={item.id} type="button" className="variant" aria-pressed={selected === index} onClick={() => setSelected(index)}>
+              <Wireframe kind={item.id} total={slide.total} />
+              <span className="variant-name"><span className="step-square">{item.id}</span>{' '}{item.name}</span>
+            </button>
+          ))}
         </div>
-        <p className="interaction-hint">{GATE_VIEW.hint}</p>
-        <p>{GATE_VIEW.explanation}</p>
+        <div className="variant-detail" aria-live="polite">
+          <div><p className="mini-label">{slide.labels.strength}</p><p>{variant.strength}</p></div>
+          <div><p className="mini-label">{slide.labels.tradeoff}</p><p>{variant.tradeoff}</p></div>
+        </div>
       </div>
-      <div className={`gate-result ${passing ? 'pass' : 'fail'}`} aria-live="polite">
-        <p className="eyebrow">{GATE_VIEW.command}</p>
-        <span className="result-symbol" aria-hidden="true">{passing ? '✓' : '!'}</span>
-        <h3>{passing ? 'Ready to proceed' : 'Change needs attention'}</h3>
-        <p>{passing ? GATE_VIEW.passing : GATE_VIEW.failing}</p>
-        <small>{GATE_VIEW.limitation}</small>
+      <article className="card card-dark-top decision">
+        <p className="mini-label">{slide.decision.label}</p>
+        <Wireframe kind="AC" total={slide.total} />
+        <h3>{slide.decision.title}</h3>
+        <p>{rich(slide.decision.text)}</p>
+      </article>
+    </div>
+  )
+}
+
+function TicketsBody({ slide }) {
+  const [state, setState] = useState(0)
+  const statusFor = ticket => (state === 0 ? 'blocked' : state === 2 && ticket.tag ? 'done' : 'open')
+  return (
+    <div className="tickets">
+      <div className="spec-steps">
+        {slide.steps.map((step, index) => (
+          <Fragment key={step.cmd}>
+            {index > 0 && <Arrow down />}
+            <article className="card spec-step">
+              <p className="spec-cmd"><code>{step.cmd}</code><span aria-hidden="true"> → </span>{step.out}</p>
+              <p>{rich(step.text)}</p>
+            </article>
+          </Fragment>
+        ))}
+      </div>
+      <div className="ticket-centre">
+        <article className="card card-dark-top first-ticket">
+          <div className="ticket-top"><p className="mini-label">{slide.first.label}</p><Status state={state === 0 ? 'open' : 'done'} labels={slide.statusLabels} /></div>
+          <h3>{slide.first.title}</h3>
+          <code className="chip">{slide.first.customer}</code>
+        </article>
+        <div className="progress-picker">
+          <Choice visibleLabel={slide.progressLabel} options={slide.states} value={state} onChange={setState} className="choice-stack" />
+        </div>
+      </div>
+      <div className="ticket-list">
+        <p className="mini-label">{slide.ticketsLabel}</p>
+        <ul>
+          {slide.tickets.map(ticket => (
+            <li key={ticket.customer}>
+              <span className="ticket-title">{ticket.title}{ticket.tag && <>{' '}<span className="tag">{ticket.tag}</span></>}</span>
+              <code className="chip">{ticket.customer}</code>
+              <Status state={statusFor(ticket)} labels={slide.statusLabels} />
+            </li>
+          ))}
+        </ul>
+        <p className="caption">{slide.ticketsNote}</p>
       </div>
     </div>
   )
 }
 
-function Exercise() {
-  const [selected, setSelected] = useState(0)
-  const [evidence, setEvidence] = useState({})
-  const option = EXERCISE.options[selected]
-  const checked = evidence[option.id] || []
-  const toggle = index => setEvidence(current => {
-    const previous = current[option.id] || []
-    return { ...current, [option.id]: previous.includes(index) ? previous.filter(item => item !== index) : [...previous, index] }
-  })
+function TddBody({ slide }) {
+  const { seam, loop, proof } = slide
   return (
-    <div className="exercise-widget">
-      <div className="exercise-picker">
-        <p className="eyebrow">{EXERCISE.label}</p>
-        <div className="exercise-options" role="group" aria-label="Exercise task">{EXERCISE.options.map((item, index) => (
-          <button key={item.id} onClick={() => setSelected(index)} aria-pressed={selected === index}>{item.label}</button>
-        ))}</div>
-        <p className="interaction-hint">{EXERCISE.prompt}</p>
-        <div className="exercise-timing">{EXERCISE.timings.map(item => <div key={item.time}><strong>{item.time}</strong><span><b>{item.title}</b><small>{item.detail}</small></span></div>)}</div>
+    <div className="tdd">
+      <div className="seam">
+        <p className="section-label">{seam.label}</p>
+        <p className="seam-inputs">{seam.inputs.map(item => <code className="chip" key={item}>{item}</code>)}</p>
+        <Arrow down />
+        <div className="seam-module"><strong>{seam.module}</strong><small>{seam.moduleText}</small></div>
+        <Arrow down />
+        <div className="seam-page"><strong>{seam.page}</strong><small>{seam.pageText}</small></div>
       </div>
-      <div className="exercise-plan">
-        <p className="eyebrow">{EXERCISE.actionLabel}</p>
-        <div className="exercise-recommendation" aria-live="polite"><h3>{option.action}</h3><pre>{option.prompt}</pre></div>
-        <p className="eyebrow evidence-label">{EXERCISE.evidenceLabel}</p>
-        <div className="evidence-list">{option.evidence.map((item, index) => <label key={`${option.id}-${index}`}><input type="checkbox" checked={checked.includes(index)} onChange={() => toggle(index)} /><span>{item}</span></label>)}</div>
-        <p className="evidence-progress" role="status">{checked.length} {EXERCISE.completed}</p>
-        <small className="exercise-privacy">{EXERCISE.privacy}</small>
+      <div className="loop">
+        <p className="section-label">{loop.label}</p>
+        <div className="red-green">
+          <div className="rg rg-red"><strong>{loop.red}</strong><small>{loop.redText}</small></div>
+          <span className="cycle" aria-hidden="true">⇄</span>
+          <div className="rg rg-green"><strong>{loop.green}</strong><small>{loop.greenText}</small></div>
+        </div>
+        <h3>{loop.rule}</h3>
+        <p className="mini-label">{loop.testsLabel}</p>
+        <ul className="test-list">{loop.tests.map(item => <li key={item}><code>{item}</code></li>)}</ul>
+      </div>
+      <div className="card proof">
+        <p className="section-label">{proof.label}</p>
+        <ul className="ticks">{proof.checks.map(item => <li key={item}>{rich(item)}</li>)}</ul>
+        <p className="mini-label">{proof.expectedLabel}</p>
+        <ul className="expected">
+          {proof.expected.map(item => (
+            <li key={item.customer}><code className="chip">{item.customer}</code><span>{item.value}</span><span className="ok" aria-hidden="true">✓</span></li>
+          ))}
+        </ul>
       </div>
     </div>
   )
+}
+
+function SessionsBody({ slide }) {
+  return (
+    <>
+      <div className="swimlanes" style={{ '--columns': slide.columns }}>
+        {slide.lanes.map(lane => (
+          <div className="lane" key={lane.name}>
+            <div className="lane-head"><strong>{lane.name}</strong><small>{lane.meta}</small></div>
+            <ol className="lane-track">
+              {lane.nodes.map(node => (
+                <li key={`${node.label}-${node.from}`} className={`node${node.kind ? ` node-${node.kind}` : ''}`} style={{ gridColumn: `${node.from} / ${(node.to ?? node.from) + 1}`, gridRow: 1 }}>{node.label}</li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+      <p className="caption">{slide.caption}</p>
+    </>
+  )
+}
+
+function DesignBody({ slide }) {
+  const [selected, setSelected] = useState(0)
+  const option = slide.triage.options[selected]
+  return (
+    <div className="design-flow">
+      <div className="design-setup">
+        <article className="card"><code className="card-cmd">{slide.product.file}</code><p>{rich(slide.product.text)}</p></article>
+        <Arrow down />
+        <article className="card"><h3>{slide.hook.title}</h3><p>{slide.hook.text}</p><code className="path">{slide.hook.path}</code></article>
+      </div>
+      <Arrow />
+      <article className="card audit-card">
+        <code className="card-cmd">{slide.audit.cmd}</code>
+        <p>{slide.audit.text}</p>
+        <ul className="audit-areas">{slide.audit.areas.map(area => <li key={area}><span>{area}</span><code>{slide.audit.scale}</code></li>)}</ul>
+        <p className="audit-total"><strong>{slide.audit.totalLabel}</strong><code>{slide.audit.total}</code></p>
+        <p className="caption">{slide.audit.note}</p>
+      </article>
+      <Arrow />
+      <div className="triage">
+        <Choice visibleLabel={slide.triage.label} options={slide.triage.options.map(item => item.label)} value={selected} onChange={setSelected} className="choice-stack" />
+        <article className="card triage-result" aria-live="polite"><h3>{option.result}</h3><p>{option.text}</p></article>
+      </div>
+      <Arrow />
+      <article className="card polish-card">
+        <code className="card-cmd">{slide.polish.cmd}</code>
+        <ul className="ticks">{slide.polish.items.map(item => <li key={item}>{item}</li>)}</ul>
+      </article>
+    </div>
+  )
+}
+
+function VerifyBody({ slide }) {
+  const [checks, setChecks] = useState({ typecheck: true, test: false })
+  const passing = slide.gate.checks.every(check => checks[check.id])
+  return (
+    <>
+      <ol className="verify-rows">
+        {slide.rows.map((row, index) => (
+          <li className="card verify-row" key={row.title}>
+            <span className={`step-square${row.solid ? ' solid' : ''}`}>{index + 1}</span>
+            <h3>{row.title}</h3>
+            {row.gate ? (
+              <>
+                <div className="gate-checks" role="group" aria-label={slide.gate.label}>
+                  {slide.gate.checks.map(check => (
+                    <button key={check.id} type="button" aria-pressed={checks[check.id]} onClick={() => setChecks(current => ({ ...current, [check.id]: !current[check.id] }))}>
+                      <code>{check.label}</code>{' '}
+                      <span className="gate-mark" aria-hidden="true">{checks[check.id] ? '✓' : '✗'}</span>
+                      <span className="sr-only">{checks[check.id] ? slide.gate.pass : slide.gate.fail}</span>
+                    </button>
+                  ))}
+                </div>
+                <span className={`owner gate-result ${passing ? 'is-pass' : 'is-fail'}`} aria-live="polite">{passing ? slide.gate.allowed : slide.gate.blocked}</span>
+              </>
+            ) : (
+              <>
+                <p className="verify-chips">{row.chips.map(chip => <code className="chip" key={chip}>{chip}</code>)}</p>
+                <span className={`owner${row.solid ? ' is-solid' : ''}`}>{row.owner}</span>
+              </>
+            )}
+          </li>
+        ))}
+      </ol>
+      <p className="caption">{slide.caption}</p>
+    </>
+  )
+}
+
+function HandsOnBody({ slide }) {
+  const [level, setLevel] = useState(0)
+  const [done, setDone] = useState([])
+  const option = slide.levels.options[level]
+  const toggle = index => setDone(current => (current.includes(index) ? current.filter(item => item !== index) : [...current, index]))
+  return (
+    <div className="handson">
+      <div className="card before">
+        <p className="section-label">{slide.before.label}</p>
+        <ul className="ticks">{slide.before.items.map(item => <li key={item}>{item}</li>)}</ul>
+      </div>
+      <div className="levels">
+        <Choice visibleLabel={slide.levels.label} options={slide.levels.options.map(item => item.from)} value={level} onChange={setLevel} className="choice-row" />
+        <div className="level-plan" aria-live="polite">
+          <p className="level-move">
+            <span className="step-square">{option.from}</span>
+            <span className="move-arrow" aria-hidden="true">→</span>
+            <span className="step-square solid">{option.to}</span>
+          </p>
+          <p>{rich(option.text)}</p>
+          {option.tools.length > 0 && <p className="level-tools">{option.tools.map(tool => <code className="chip" key={tool}>{tool}</code>)}</p>}
+        </div>
+      </div>
+      <div className="card show">
+        <p className="section-label">{slide.show.label}</p>
+        <div className="checklist">
+          {slide.show.items.map((item, index) => (
+            <label key={item}><input type="checkbox" checked={done.includes(index)} onChange={() => toggle(index)} /><span>{item}</span></label>
+          ))}
+        </div>
+        <p className="checklist-status" role="status">{slide.show.progress.replace('{done}', done.length).replace('{total}', slide.show.items.length)}</p>
+        <p className="caption">{slide.show.privacy}</p>
+      </div>
+    </div>
+  )
+}
+
+function SkillsBody({ slide }) {
+  const [filter, setFilter] = useState(0)
+  return (
+    <>
+      <div className="skills-head">
+        <ul className="skill-sources">
+          {slide.sources.map(source => <li key={source.id} className={`src-${source.id}`}><span className="count">{source.count}</span>{' '}{source.name}</li>)}
+        </ul>
+        <Choice label={slide.filterLabel} options={slide.filters} value={filter} onChange={setFilter} className="choice-row" />
+      </div>
+      <p className="caption skills-note">{slide.note}</p>
+      <ul className="skill-grid">
+        {slide.skills.map(skill => (
+          <li key={skill.name} className={`skill src-${skill.src}${filter === 1 && !skill.used ? ' is-dim' : ''}`}>
+            <code>{skill.name}</code><span>{skill.text}</span>
+          </li>
+        ))}
+      </ul>
+    </>
+  )
+}
+
+const BODIES = {
+  why: WhyBody,
+  contoso: ContosoBody,
+  workflow: WorkflowBody,
+  ladder: LadderBody,
+  grill: GrillBody,
+  prototype: PrototypeBody,
+  tickets: TicketsBody,
+  tdd: TddBody,
+  sessions: SessionsBody,
+  design: DesignBody,
+  verify: VerifyBody,
+  handson: HandsOnBody,
+  skills: SkillsBody,
+  debrief: ({ slide }) => <Cards cards={slide.cards} />,
 }
 
 export function WorkshopSlide({ index, slide }) {
   const active = useSlides().current === index
   const hero = slide.type === 'title'
+  const Body = BODIES[slide.type]
   return (
-    <Slide index={index} className={`workshop-slide ${hero ? 'hero-slide' : ''}`}>
+    <Slide index={index} className={`workshop-slide slide-${slide.type}${hero ? ' hero-slide' : ''}`}>
       <div className="slide-rule" aria-hidden="true" />
-      <div className={`slide-content ${active ? 'is-active' : ''}`} inert={!active} aria-hidden={!active}>
-        <div className={hero ? 'hero-layout' : 'slide-main'}>
-          <header className="slide-heading">
-            <p className="eyebrow">{slide.eyebrow}</p>
-            <h1>{slide.title}{slide.highlight && <>{' '}<br className={hero ? '' : 'optional-break'} /><em>{slide.highlight}</em></>}</h1>
-            {slide.subtitle && <p className="slide-subtitle">{slide.subtitle}</p>}
-            {hero && <div className="title-meta">{EVENT.meta.map(item => <span key={item}>{item}</span>)}</div>}
-          </header>
-          {hero && <WorkshopAgenda />}
-        </div>
-        {slide.cards && <div className="cards">{slide.cards.map(card => <article className="card" key={card.title}><p className="card-label">{card.label}</p><h3>{card.title}</h3><p>{card.text}</p>{card.code && <pre>{card.code}</pre>}</article>)}</div>}
-        {slide.type === 'sources' && <Sources />}
-        {slide.type === 'flow' && <SkillFlow steps={slide.steps} />}
-        {slide.type === 'brief' && <TaskBrief brief={slide.brief} />}
-        {slide.type === 'gate' && <Gate />}
-        {slide.type === 'exercise' && <Exercise />}
-        <div className="takeaway"><span>{hero ? 'TOOLING' : 'NOTE'}</span><p>{slide.takeaway}</p></div>
+      <div className={`slide-content${active ? ' is-active' : ''}`} inert={!active} aria-hidden={!active}>
+        {hero ? <TitleSlide slide={slide} /> : (
+          <>
+            <Heading slide={slide} />
+            <div className="slide-body"><Body slide={slide} /></div>
+            <Takeaway takeaway={slide.takeaway} />
+          </>
+        )}
       </div>
-      <BottomBar text={<span className="slide-footer"><span>{EVENT.footer}</span><span>MY CONTOSO / SYNTHETIC EXAMPLES</span></span>} />
+      <BottomBar text={<span className="slide-footer"><span>{EVENT.footer}</span><span>{EVENT.footerRight}</span></span>} />
     </Slide>
   )
 }

@@ -42,7 +42,7 @@ function DeckControls() {
         <div className="menu-list">
           {SLIDES.map((item, index) => (
             <button key={item.id} aria-current={current === index ? 'step' : undefined} onClick={() => { goTo(index); setContents(false) }}>
-              <span>{String(index + 1).padStart(2, '0')}</span><span>{item.title} {item.highlight}<small>{item.section}</small></span><span aria-hidden="true">↗</span>
+              <span>{String(index + 1).padStart(2, '0')}</span><span>{item.title}{item.highlight ? ` ${item.highlight}` : ''}<small>{item.section}</small></span><span aria-hidden="true">↗</span>
             </button>
           ))}
         </div>
