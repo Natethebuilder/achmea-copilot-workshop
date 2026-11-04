@@ -7,12 +7,30 @@ This is the facilitator kit for a 2-hour GitHub Copilot workshop with Achmea. In
 | Path | What it is |
 | --- | --- |
 | [`guide.md`](guide.md) | The step-by-step guide: Steps 1–11 before the session, a 45-minute live demo (Steps 12–22), and an optional wayfinder step. It keeps the Total Rewards guide's structure and prompt shapes, retargeted to My Contoso. |
+| [`presentation/`](presentation/) | The customer-facing Achmea event presentation: 19 slides with interactive readiness, data, workflow, validation and next-step explorers. |
 | `kit/data/` | The two prepared data sources that Step 6 copies into the project. |
 | `kit/scripts/` | The seeded generator for that data, and its test. |
 | `kit/.github/hooks/` | The quality gate (L5) that Step 6 copies into the project. |
 | `tests/` | Tests for the quality gate. |
 
 Keep this repo separate from the project repo you create in Step 1.
+
+## Event presentation
+
+The customer-facing **Achmea × Microsoft** presentation combines a warm off-white and teal editorial style with the My Contoso scenario and the L0–L5 readiness model. It follows the two-hour agenda below. The delivered site and slides contain audience-facing material only: no facilitator notes, rehearsal instructions, fallback branches, private repository links, internal scan figures, rankings or source attachments.
+
+```powershell
+npm ci --prefix .\presentation
+npm run dev --prefix .\presentation
+```
+
+Open `http://127.0.0.1:5217/achmea-copilot-workshop/` for the overview, or append `#/deck` to present. Use the arrow keys or on-screen arrows to navigate and **All slides** to jump. The index also deep-links to individual slides. Interactive examples explore readiness levels, complete/missing coverage data, delivery responsibilities, required quality checks and a next-step checklist. Checklist selections remain in page memory only: nothing is submitted or saved.
+
+Edit audience-facing copy and slide order in `presentation/src/content.js`; edit the visual components in `presentation/src/slides/Slides.jsx`. Keep facilitator instructions in this README and `guide.md`, outside the presentation package. Run `npm run build --prefix .\presentation` to create the static output in `presentation/dist/`, or `npm run preview --prefix .\presentation -- --port 5217 --strictPort` to preview a build. Distribute only `presentation/dist/`, not the facilitator repository.
+
+The [event website](https://natethebuilder.github.io/achmea-copilot-workshop/) and [interactive deck](https://natethebuilder.github.io/achmea-copilot-workshop/#/deck) are hosted on GitHub Pages. `.github/workflows/deploy-presentation.yml` runs the browser and customer-disclosure checks before publishing **only** `presentation/dist/`. Presentation changes pushed to `main` or the initial `natethebuilder-achmea-event-presentation` branch redeploy the site. The repository itself is public; the narrower customer-facing Pages site does not include this facilitator guide or source attachments.
+
+The presentation's browser checks run separately from the kit's Vitest tests: `npm exec --prefix .\presentation -- playwright install chromium` (first run only), then `npm test --prefix .\presentation`. They check navigation, interactions, all 19 slides at desktop and 320px phone widths, and the absence of backstage content and private links in production assets, using a temporary production preview on port 5218.
 
 ```
 npm install
