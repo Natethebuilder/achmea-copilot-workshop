@@ -151,7 +151,7 @@ Change the letters and the reasons to match the layouts you got.
 ### Step 15: Bring the decision back (1 min, Prototype session)
 _Why:_ the handoff carries the decision to the Plan session without its prototype code.
 ```
-/handoff The Plan session writes the spec with this layout decision. Only ask to approve the plan and don't ask to implement it.
+/handoff The Plan session writes the spec with this layout decision. Only ask to approve the plan with specs and don't ask to implement it.
 ```
 
 ### Step 16: Spec (5 min, Plan session)
