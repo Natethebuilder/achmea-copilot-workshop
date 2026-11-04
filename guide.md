@@ -159,14 +159,14 @@ _Why:_ `to-spec` turns the conversation into a durable spec issue with agreed te
 ```
 /to-spec for the Policy Overview slice. Include the layout decision from the handoff plan document.
 ```
-Then review the proposed test seams and approve them, or push back.
+Then review the proposed test seams and approve them, or push back. Navigate to GitHub issues in your repo and check the spec.
 
 ### Step 17: Tickets (4 min, Plan session)
 _Why:_ thin vertical slices with blocking links can be built and checked one at a time, and the rest can run in parallel.
 ```
 /to-tickets for the spec. Make the first ticket the thinnest end-to-end policy overview for a customer whose policies all run and are paid monthly, such as C1002, so later tickets can run in parallel.
 ```
-Then review the breakdown and approve it, or ask for changes.
+Then review the breakdown and approve it, or ask for changes. Navigate to GitHub issues in your repo and check the sub-issues.
 
 ### Step 18: Build the first ticket (15 min, new "Build" session from main, Interactive)
 _Why:_ each ticket gets a fresh context. `implement` works test-first at the agreed seams and runs its own code review, and the quality gate blocks the commit if type checking or tests fail (L5).
