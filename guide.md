@@ -52,7 +52,7 @@ Add a `## Working rules` section to AGENTS.md. Keep it short and use these rules
 - Use synthetic data only. Never use real personal data.
 - A customer may only ever see their own policies. When a change loads customer data or sends it to the browser, run the security-review agent before you give the acceptance script, and fix what it finds.
 - Reviews and audits judge the work against its ticket. If a finding is already covered by another open ticket, list it with that ticket's number instead of fixing it.
-- If a prompt starts with `/<name>` and that skill isn't loaded, read `.agents/skills/<name>/SKILL.md` or `.github/skills/<name>/SKILL.md` and follow it.
+- If a prompt starts with `/<name>` and that skill isn't loaded, read `.agents/skills/<name>/SKILL.md` or `.github/skills/<name>/SKILL.md` and follow it. Do not retry the app skill loader for repository-local skills.
 - Never skip or work around the hooks in `.github/hooks/`, and change them only when the human asks. If the quality gate blocks a commit, fix what fails.
 
 Then add two scoped instruction files:
