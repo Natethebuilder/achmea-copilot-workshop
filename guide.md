@@ -119,7 +119,7 @@ Then answer each round until the agent says there are no open questions. The REA
 ### Step 10: Hand off the layout question (Plan session)
 _Why:_ "what should it look like?" needs something you can see, so it's a detour into its own session, which keeps the planning context clean.
 ```
-/handoff Prototype the policy overview page layout in a separate session, then bring the decision back here.
+/handoff Prototype the policy overview page layout in a separate session, then bring the decision back here. 
 ```
 
 ### Step 11: Prepare the layout options (new "Prototype" session from main, Interactive)
@@ -151,13 +151,13 @@ Change the letters and the reasons to match the layouts you got.
 ### Step 15: Bring the decision back (1 min, Prototype session)
 _Why:_ the handoff carries the decision to the Plan session without its prototype code.
 ```
-/handoff The Plan session writes the spec with this layout decision.
+/handoff The Plan session writes the spec with this layout decision. Only ask to approve the plan and don't ask to implement it.
 ```
 
 ### Step 16: Spec (5 min, Plan session)
 _Why:_ `to-spec` turns the conversation into a durable spec issue with agreed test seams.
 ```
-/to-spec for the Policy Overview slice. Include the layout decision from the handoff document at <path from step 15>.
+/to-spec for the Policy Overview slice. Include the layout decision from the handoff plan document.
 ```
 Then review the proposed test seams and approve them, or push back.
 
