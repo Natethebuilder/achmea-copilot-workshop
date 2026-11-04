@@ -155,8 +155,11 @@ test('sessions show one lane per session with pull requests marked', async ({ pa
     for (const node of lane.nodes) expect(node.to ?? node.from, node.label).toBeLessThanOrEqual(sessions.columns)
   }
   if (testInfo.project.name === 'desktop') {
-    const heights = await active(page).locator('.node').evaluateAll(nodes => nodes.map(node => Math.round(node.getBoundingClientRect().height)))
-    expect(new Set(heights).size, 'every step label fits on one line').toBe(1)
+    const heights = () => active(page).locator('.node').evaluateAll(nodes => nodes.map(node => Math.round(node.getBoundingClientRect().height)))
+    expect(new Set(await heights()).size, 'every step label fits on one line').toBe(1)
+    // Bold Arial metrics are wider than Segoe UI and close to the Linux and macOS fallbacks.
+    await page.addStyleTag({ content: ':root { --sans: Arial, "Liberation Sans", sans-serif; }' })
+    expect(new Set(await heights()).size, 'every step label fits on one line in a wider font').toBe(1)
   }
 })
 

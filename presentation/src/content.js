@@ -360,7 +360,7 @@ export const SLIDES = [
         name: 'Build',
         meta: 'fresh session per ticket',
         nodes: [
-          { label: 'implement ticket 1', from: 7, to: 8 },
+          { label: 'ticket 1', from: 7, to: 8 },
           { label: 'PR', from: 9, kind: 'pr' },
           { label: 'audit', from: 10 },
           { label: 'polish', from: 11 },
@@ -372,7 +372,7 @@ export const SLIDES = [
         name: 'Parallel',
         meta: 'Autopilot · own worktree',
         nodes: [
-          { label: 'implement missing information', from: 9, to: 11 },
+          { label: 'missing information', from: 9, to: 11 },
           { label: 'PR', from: 12, kind: 'pr' },
         ],
       },
