@@ -125,7 +125,7 @@ _Why:_ "what should it look like?" needs something you can see, so it's a detour
 ### Step 11: Prepare the layout options (new "Prototype" session from main, Interactive)
 _Why:_ three real layouts with real data settle the design faster than discussion.
 ```
-Read the handoff document at <path from step 10>. Use the prototype skill for the policy overview page: 3 structurally different layouts on the real page, switched with `?variant=`, showing C1001's real data, designed mobile-first. Run the dev server on port 5176, keep it running, and give me the URLs.
+Read the handoff document created with the previous prompt. Use the prototype skill for the policy overview page: 3 structurally different layouts on the real page, switched with `?variant=`, showing C1001's real data, designed mobile-first. Run the dev server on port 5176, keep it running, and give me the URLs.
 ```
 Before the session, ask it to run `npm run typecheck` and `npm test` and fix any failures, because the quality gate blocks the Step 14 commit if they fail.
 
