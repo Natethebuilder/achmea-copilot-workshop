@@ -13,18 +13,40 @@ Create a private repo with only a README, for example with `gh repo create my-co
 ### Step 2: Install skills
 _Why:_ skills package engineering habits as files in the repo, so every teammate's agent works the same way (L3). Impeccable also adds design agents (L4) and a design hook (L5), and the accessibility skill checks the UI against WCAG 2.2 AA.
 ```
-Install the agent skills for this repo for GitHub Copilot, with no interactive prompts:
+Set up agent skills for this repo so they work for the rest of the workshop.
+
+Remember for this Project (save to Project memory):
+- Repo skills load only in repo sessions, not in this Project chat. If I type a `/name` command here that isn't one of your own skills, don't forward the bare `/name`. Send the repo session: "Read `.agents/skills/<name>/SKILL.md` (or `.github/skills/<name>/SKILL.md`) and follow it for: <my request>". If it's a user-only skill, also tell me I can type `/name` directly in that repo session.
+
+Do the install in a new repo session. Run it with shell access approved, so nothing waits on a prompt:
 
 1. `npx -y skills@latest add mattpocock/skills -a github-copilot --copy -y -s ask-matt grilling grill-with-docs domain-modeling prototype handoff to-spec to-tickets implement tdd code-review codebase-design pr retro writing-for-agents diagnosing-bugs research wayfinder setup-matt-pocock-skills`
 2. `npx -y skills@latest add multica-ai/andrej-karpathy-skills -a github-copilot --copy -y -s karpathy-guidelines`
 3. `npx -y impeccable@latest install --providers=github --scope=project -y`. If it reports that there is no windows-arm64 binary, set `IMPECCABLE_BIN` to the x64 engine from `npm pack @impeccable/cli-windows-x64` (it runs under emulation) and run it again.
 4. `npx -y skills@latest add addyosmani/web-quality-skills -a github-copilot --copy -y -s accessibility`
 
+Run every command from the repo root and never with `-g`/`--global`. Stop and report if any command fails or prompts.
+
 Then:
+
 - Add `.github/skills/impeccable/scripts/bin/` to `.gitignore`.
 - In `.github/hooks/impeccable.json`, add a `powershell` command next to the `bash` command and set `timeoutSec` to 30. Use this command: `$r = git rev-parse --show-toplevel; $l = Join-Path $r '.github/skills/impeccable/scripts/impeccable.cmd'; if (Test-Path $l) { $input | & $l hook }`
-- Check that every skill folder has a SKILL.md and that the hook file is valid JSON.
-- Commit with the message `chore: add agent skills` and push.
+- Check that the hook file is valid JSON.
+- For each of the 22 requested skills, check that it exists under `.agents/skills/<name>/` or `.github/skills/<name>/`, has a `SKILL.md`, and that the `SKILL.md` frontmatter `name` matches the folder name. Report anything missing.
+- Add an "Agent skills" section to `AGENTS.md` with:
+  - a table listing each skill, its `SKILL.md` path, and whether it is user-only (`disable-model-invocation: true`);
+  - this rule: "If a prompt starts with `/<name>` and that skill isn't loaded, read its `SKILL.md` from the table and follow it."
+- Commit with the message `chore: add agent skills` and push to the default branch. Later repo sessions start from that branch, so the skills must be committed there.
+
+Check: after the push, start one more new repo session and invoke one model-invocable skill there, such as `karpathy-guidelines`. Report whether it loaded from the repo. Then remind me which commands are user-only and that I must type them in a repo session.
+
+Rules this prompt relies on (verified):
+
+- Repo sessions only. This Project chat never loads repo skills. Slash commands typed here, or forwarded as messages, don't trigger them.
+- Load at session start. Skills are only picked up when a session starts. Sessions opened before the push won't see them.
+- Base commit, not `main`. A session finds skills that are in the commit it starts from. This is usually the default branch.
+- User-only skills. `ask-matt`, `grill-with-docs`, `handoff`, `implement`, `retro`, `setup-matt-pocock-skills`, `to-spec`, `to-tickets` and `wayfinder` can't be loaded by agents. Type them in a repo session. Typing `/bootstrap-useronly-8b19ef` there was verified to load natively.
+- `.agents/skills` and `.github/skills` both work. The folder doesn't matter.
 ```
 
 ### Step 3: Configure the skills
