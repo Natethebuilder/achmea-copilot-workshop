@@ -33,12 +33,22 @@ const Status = ({ state, labels }) => <span className={`status status-${state}`}
 const Arrow = ({ down }) => <span className={down ? 'down-arrow' : 'phase-arrow'} aria-hidden="true">{down ? '↓' : '→'}</span>
 
 function Heading({ slide }) {
-  return (
+  const heading = (
     <header className="slide-heading">
       <p className={`eyebrow${slide.mono ? ' eyebrow-mono' : ''}`}>{slide.mono || slide.eyebrow}</p>
       <h1>{slide.title}{slide.highlight && <>{' '}<span className="title-highlight">{slide.highlight}</span></>}</h1>
       {slide.subtitle && <p className="slide-subtitle">{rich(slide.subtitle)}</p>}
     </header>
+  )
+  if (!slide.task) return heading
+  return (
+    <div className="heading-row">
+      {heading}
+      <div className="task-card">
+        <p className="mini-label">{slide.task.label}</p>
+        <p>{rich(slide.task.text)}</p>
+      </div>
+    </div>
   )
 }
 
@@ -228,6 +238,56 @@ function WorkflowBody({ slide }) {
           <span className="tag">{slide.onramp.tag}</span>
         </div>
         <p className="router">{slide.router.text} <code className="chip">{slide.router.cmd}</code></p>
+      </div>
+    </>
+  )
+}
+
+const countWords = text => text.trim().split(/\s+/).length
+
+function ReadinessBody({ slide }) {
+  const [focus, setFocus] = useState(null)
+  const words = slide.levels.map(level => countWords(level.prompt))
+  const most = Math.max(...words)
+  const [, availableLabel, promptLabel, wordsLabel, whyLabel] = slide.columns
+  const { from, to } = slide.arrow
+  return (
+    <>
+      <div className="card readiness">
+        <table className="readiness-table">
+          <caption className="sr-only">{slide.caption}</caption>
+          <colgroup>{slide.columns.map(column => <col key={column} />)}</colgroup>
+          <thead><tr>{slide.columns.map(column => <th key={column} scope="col">{column}</th>)}</tr></thead>
+          <tbody>
+            {slide.levels.map((level, index) => (
+              <tr key={level.level} className={focus === null ? undefined : focus === index ? 'is-focus' : 'is-dim'} style={{ '--i': index }}>
+                <th scope="row">
+                  <button type="button" aria-pressed={focus === index} onClick={() => setFocus(focus === index ? null : index)}>
+                    <span className={`level-chip level-${index}`}>{level.level}</span>{' '}
+                    <span className="level-state"><strong>{level.state}</strong> <small>{level.alt}</small></span>
+                  </button>
+                </th>
+                <td data-label={availableLabel}>
+                  <span className="available">{rich(level.available)}</span>
+                  {level.detail && <> <small className="available-detail">{level.detail}</small></>}
+                </td>
+                <td data-label={promptLabel}>{level.same ? <span className="same-prompt">{level.same}</span> : <q>{level.prompt}</q>}</td>
+                <td data-label={wordsLabel}>
+                  <span className="words">
+                    <span className="words-n">{words[index]}</span>
+                    <span className="words-bar" aria-hidden="true"><span style={{ '--w': words[index] / most }} /></span>
+                  </span>
+                </td>
+                <td data-label={whyLabel}>{level.why.map(line => <span key={line} className="why-line">{line}</span>)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="prompt-repo">
+        <p><strong>{from.label}</strong> <span>{from.text}</span></p>
+        <span className="prompt-repo-arrow" aria-hidden="true" />
+        <p><strong>{to.label}</strong> <span>{to.text}</span></p>
       </div>
     </>
   )
@@ -562,6 +622,7 @@ const BODIES = {
   why: WhyBody,
   contoso: ContosoBody,
   workflow: WorkflowBody,
+  readiness: ReadinessBody,
   ladder: LadderBody,
   grill: GrillBody,
   prototype: PrototypeBody,

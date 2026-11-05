@@ -114,6 +114,39 @@ test('context ladder explains every level', async ({ page }) => {
   }
 })
 
+test('Achmea’s context ladder keeps the task fixed while the prompt shrinks', async ({ page }, testInfo) => {
+  const readiness = slide('readiness')
+  const words = readiness.levels.map(level => level.prompt.trim().split(/\s+/).length)
+  expect(words).toEqual([34, 18, 14, 10, 10, 10])
+  await goTo(page, 'readiness')
+  await expect(active(page).locator('.task-card')).toContainText(readiness.task.text)
+  const rows = active(page).locator('.readiness-table tbody tr')
+  await expect(rows).toHaveCount(readiness.levels.length)
+  for (const [index, level] of readiness.levels.entries()) {
+    const row = rows.nth(index)
+    await expect(row.locator('th')).toContainText(`${level.level} ${level.state}`)
+    if (level.same) await expect(row.locator('.same-prompt')).toHaveText(level.same)
+    else await expect(row.locator('q')).toHaveText(level.prompt)
+    await expect(row.locator('.words-n')).toHaveText(String(words[index]))
+    for (const line of level.why) await expect(row).toContainText(line)
+  }
+  const level = readiness.levels[2]
+  const button = active(page).getByRole('button', { name: `${level.level} ${level.state}` })
+  await button.click()
+  await expect(button).toHaveAttribute('aria-pressed', 'true')
+  await expect(active(page).locator('tr.is-dim')).toHaveCount(readiness.levels.length - 1)
+  await button.click()
+  await expect(button).toHaveAttribute('aria-pressed', 'false')
+  await expect(active(page).locator('tr.is-dim')).toHaveCount(0)
+  if (testInfo.project.name === 'desktop') {
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await page.addStyleTag({ content: ':root { --sans: Arial, "Liberation Sans", sans-serif; --mono: "Courier New", "Liberation Mono", monospace; }' })
+    await settle(page)
+    const bounds = await active(page).locator('.slide-content').boundingBox()
+    expect(bounds.y + bounds.height, 'fits 1280 × 720 in wider fallback fonts').toBeLessThan(626)
+  }
+})
+
 test('prototype variants show their strength and trade-off', async ({ page }) => {
   const prototype = slide('prototype')
   await goTo(page, 'prototype')
@@ -244,6 +277,7 @@ test('customer build contains no backstage content, private links or source file
 })
 
 test('every slide fits the desktop screen and scrolls cleanly on a 320px phone', async ({ page }, testInfo) => {
+  test.slow()
   const desktop = testInfo.project.name === 'desktop'
   await page.goto('#/deck?slide=0')
   await expect(page.locator('.slide')).toHaveCount(SLIDES.length)
@@ -273,6 +307,7 @@ test('every slide fits the desktop screen and scrolls cleanly on a 320px phone',
 
 test('every slide and interactive state fits a 1280 × 720 presentation screen', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'Presentation-screen check')
+  test.slow()
   await page.setViewportSize({ width: 1280, height: 720 })
   for (const item of SLIDES) {
     await goTo(page, item.id)
